@@ -5,8 +5,8 @@ function SignUpPage(/* {}: Props */) {
   return (
     <div>
       <h1>Connexion</h1>
-      <Input />
-      <Input />
+      <Input placeholder="Identifiant" />
+      <Input placeholder="Email" />
     </div>
   );
 }
