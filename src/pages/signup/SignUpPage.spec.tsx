@@ -12,15 +12,15 @@ describe('Sign Up Page', () => {
     });
 
     it('002 - has username input', () => {
-      const { container } = render(<SignUpPage />);
-      const input = container.querySelector('input');
+      render(<SignUpPage />);
+      const input = screen.getByPlaceholderText('Identifiant');
       expect(input).toBeInTheDocument();
     });
 
     it('003 - has email input', () => {
-      const { container } = render(<SignUpPage />);
-      const inputs = container.querySelectorAll('input');
-      expect(inputs.length).toBe(2);
+      render(<SignUpPage />);
+      const emailInput = screen.getByPlaceholderText('Email');
+      expect(emailInput).toBeInTheDocument();
     });
   });
 });
