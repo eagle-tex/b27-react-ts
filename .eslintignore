@@ -1,0 +1,16 @@
+.cache/
+build/
+coverage/
+dist/
+dotenv/
+html/
+logs/
+node_modules/
+public/
+
+*.env
+
+# Not ignored
+!.prettierrc.cjs
+!.stylelintrc.cjs
+!**/*.cjs

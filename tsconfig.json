@@ -1,0 +1,66 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom"
+      // "node" // added "node" on 2023/09/22
+    ],
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+
+    /* Custom paths */
+    // "baseUrl": "./src", // for `import {Asset} from 'assets/Asset'`
+    "baseUrl": ".", // for `import {Asset} from '@assets/Asset'`, note the "@"
+    "paths": {
+      // "@": [
+      //   "src"
+      // ],
+      "@/*": ["./src/*"]
+      // "@assets": [
+      //   "src/assets"
+      // ],
+      // "@assets/*": ["./src/assets/*"],
+      // "@components": ["src/components"],
+      // "@components/*": ["./src/components/*"]
+      // "@helpers/*": ["./src/helpers/*"]
+    }
+  },
+  "include": [
+    "vite.config.ts",
+    ".*.cjs",
+    "*.cjs",
+    "./*.js",
+    "./*.ts",
+    "./*.tsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "@testing-library/jest-dom", // maybe?
+    // "./src/setupTests.ts",
+    // "./src/__tests__/setupTests.ts",
+    ".prettierrc.cjs",
+    ".eslintrc.cjs",
+    "src"
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

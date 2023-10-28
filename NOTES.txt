@@ -1,0 +1,14 @@
+React app with TypeScript, setup with `vite` (not `create-react-app`)
+
+Batteries included:
+- commitlint & commitizen + .czrc
+- editorconfig
+- eslint with airbnb/typescript/react-hooks rules + eslintignore
+- lint-staged
+- husky
+- npmrc
+- prettier, prettierignore
+- stylelint
+- tailwindcss
+- vite.config.ts
+- tests with vitest (not jest)
