@@ -122,7 +122,12 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: true,
+        devDependencies: [
+          '**/*.spec.ts',
+          '**/*.spec.tsx',
+          '**/*.test.ts',
+          '**/*.test.tsx',
+        ],
         optionalDependencies: false,
         peerDependencies: false,
       },
