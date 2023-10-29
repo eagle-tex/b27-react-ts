@@ -48,5 +48,11 @@ describe('Sign Up Page', () => {
       const passwordRepeatInput = screen.getByLabelText('Répéter mot de passe');
       expect(passwordRepeatInput).toHaveAttribute('type', 'password');
     });
+
+    it('008 - has "Connexion" button', () => {
+      render(<SignUpPage />);
+      const signupButton = screen.queryByRole('button', { name: 'Connexion' });
+      expect(signupButton).toBeInTheDocument();
+    });
   });
 });
