@@ -13,13 +13,13 @@ describe('Sign Up Page', () => {
 
     it('002 - has username input', () => {
       render(<SignUpPage />);
-      const input = screen.getByPlaceholderText('Identifiant');
+      const input = screen.getByLabelText('Identifiant');
       expect(input).toBeInTheDocument();
     });
 
     it('003 - has email input', () => {
       render(<SignUpPage />);
-      const emailInput = screen.getByPlaceholderText('Email');
+      const emailInput = screen.getByLabelText('Email');
       expect(emailInput).toBeInTheDocument();
     });
   });
