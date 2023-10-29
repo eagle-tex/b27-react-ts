@@ -37,7 +37,9 @@ describe('Sign Up Page', () => {
 
     it('006 - has password repeat input', () => {
       render(<SignUpPage />);
-      const passwordRepeatInput = screen.getByLabelText('Répéter mot de passe');
+      const passwordRepeatInput = screen.getByLabelText(
+        'Confirmer mot de passe'
+      );
       expect(passwordRepeatInput).toBeInTheDocument();
     });
 
