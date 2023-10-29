@@ -18,7 +18,7 @@ function SignUpPage(/* {}: Props */) {
 
       <FormControl>
         <FormLabel htmlFor="password">Mot de passe</FormLabel>
-        <Input placeholder="Mot de passe" id="password" />
+        <Input type="password" placeholder="Mot de passe" id="password" />
       </FormControl>
     </div>
   );
