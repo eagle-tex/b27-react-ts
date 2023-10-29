@@ -28,5 +28,11 @@ describe('Sign Up Page', () => {
       const passwordInput = screen.getByLabelText('Mot de passe');
       expect(passwordInput).toBeInTheDocument();
     });
+
+    it('005 - password input has password type', () => {
+      render(<SignUpPage />);
+      const passwordInput = screen.getByLabelText('Mot de passe');
+      expect(passwordInput).toHaveAttribute('type', 'password');
+    });
   });
 });
