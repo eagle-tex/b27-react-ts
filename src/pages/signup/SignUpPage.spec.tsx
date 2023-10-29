@@ -34,5 +34,17 @@ describe('Sign Up Page', () => {
       const passwordInput = screen.getByLabelText('Mot de passe');
       expect(passwordInput).toHaveAttribute('type', 'password');
     });
+
+    it('006 - has password repeat input', () => {
+      render(<SignUpPage />);
+      const passwordRepeatInput = screen.getByLabelText('Répéter mot de passe');
+      expect(passwordRepeatInput).toBeInTheDocument();
+    });
+
+    it('007 - password repeat input has password type', () => {
+      render(<SignUpPage />);
+      const passwordRepeatInput = screen.getByLabelText('Répéter mot de passe');
+      expect(passwordRepeatInput).toHaveAttribute('type', 'password');
+    });
   });
 });
