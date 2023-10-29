@@ -20,6 +20,15 @@ function SignUpPage(/* {}: Props */) {
         <FormLabel htmlFor="password">Mot de passe</FormLabel>
         <Input type="password" placeholder="Mot de passe" id="password" />
       </FormControl>
+
+      <FormControl>
+        <FormLabel htmlFor="passwordRepeat">Répéter mot de passe</FormLabel>
+        <Input
+          type="password"
+          placeholder="Répéter mot de passe"
+          id="passwordRepeat"
+        />
+      </FormControl>
     </div>
   );
 }
