@@ -15,6 +15,11 @@ function SignUpPage(/* {}: Props */) {
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input type="email" placeholder="Email" id="email" />
       </FormControl>
+
+      <FormControl>
+        <FormLabel htmlFor="password">Mot de passe</FormLabel>
+        <Input placeholder="Mot de passe" id="password" />
+      </FormControl>
     </div>
   );
 }
