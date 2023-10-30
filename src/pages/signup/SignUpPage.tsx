@@ -1,8 +1,56 @@
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
 // type Props = {}
 
+type State = {
+  disabled: boolean;
+  password: string;
+  passwordRepeat: string;
+};
+
 function SignUpPage(/* {}: Props */) {
+  const [state, setState] = useState<State>({
+    disabled: true,
+    password: '',
+    passwordRepeat: '',
+  });
+
+  const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const currentValue = event.target.value;
+    setState({
+      ...state,
+      password: currentValue,
+      disabled: currentValue !== state.passwordRepeat,
+    });
+  };
+
+  const onChangePasswordRepeat = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const currentValue = event.target.value;
+    setState({
+      ...state,
+      passwordRepeat: currentValue,
+      disabled: currentValue !== state.password,
+    });
+  };
+
+  useEffect(() => {
+    console.log(state);
+  });
+
+  // function computeDisabled() {
+  //   let disabled = true;
+  //   const { password, passwordRepeat } = state;
+  //   if (password && passwordRepeat) {
+  //     disabled = password !== passwordRepeat;
+  //   } else {
+  //     disabled = true;
+  //   }
+  //   return disabled;
+  // }
+
   return (
     <Box
       display="flex"
@@ -14,7 +62,6 @@ function SignUpPage(/* {}: Props */) {
       px={4}
       my={6}
     >
-      {/* <Box texAlign="left"> */}
       <Box
         p={4}
         minWidth="400px"
@@ -67,6 +114,7 @@ function SignUpPage(/* {}: Props */) {
             name="password"
             type="password"
             fullWidth
+            onChange={onChangePassword}
           />
           <TextField
             id="passwordRepeat"
@@ -76,6 +124,7 @@ function SignUpPage(/* {}: Props */) {
             name="passwordRepeat"
             type="password"
             fullWidth
+            onChange={onChangePasswordRepeat}
           />
 
           <Button
@@ -83,7 +132,8 @@ function SignUpPage(/* {}: Props */) {
             size="large"
             variant="contained"
             fullWidth
-            disabled
+            disabled={state.disabled}
+            // disabled={computeDisabled()}
           >
             Connexion
           </Button>
