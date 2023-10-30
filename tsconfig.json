@@ -28,6 +28,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
 
     /* Custom paths */
     // "baseUrl": "./src", // for `import {Asset} from 'assets/Asset'`
