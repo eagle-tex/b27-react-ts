@@ -45,7 +45,9 @@ describe('Sign Up Page', () => {
 
     it('007 - password repeat input has password type', () => {
       render(<SignUpPage />);
-      const passwordRepeatInput = screen.getByLabelText('Répéter mot de passe');
+      const passwordRepeatInput = screen.getByLabelText(
+        'Confirmer mot de passe'
+      );
       expect(passwordRepeatInput).toHaveAttribute('type', 'password');
     });
 
