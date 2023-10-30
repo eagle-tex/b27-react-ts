@@ -3,15 +3,13 @@ import React, { useEffect, useState } from 'react';
 
 // type Props = {}
 
-type State = {
-  disabled: boolean;
+type SignupState = {
   password: string;
   passwordRepeat: string;
 };
 
 function SignUpPage(/* {}: Props */) {
-  const [state, setState] = useState<State>({
-    disabled: true,
+  const [state, setState] = useState<SignupState>({
     password: '',
     passwordRepeat: '',
   });
@@ -21,7 +19,6 @@ function SignUpPage(/* {}: Props */) {
     setState({
       ...state,
       password: currentValue,
-      disabled: currentValue !== state.passwordRepeat,
     });
   };
 
@@ -32,7 +29,6 @@ function SignUpPage(/* {}: Props */) {
     setState({
       ...state,
       passwordRepeat: currentValue,
-      disabled: currentValue !== state.password,
     });
   };
 
@@ -40,16 +36,16 @@ function SignUpPage(/* {}: Props */) {
     console.log(state);
   });
 
-  // function computeDisabled() {
-  //   let disabled = true;
-  //   const { password, passwordRepeat } = state;
-  //   if (password && passwordRepeat) {
-  //     disabled = password !== passwordRepeat;
-  //   } else {
-  //     disabled = true;
-  //   }
-  //   return disabled;
-  // }
+  function isDisabled() {
+    let disabled = true;
+    const { password, passwordRepeat } = state;
+    if (password && passwordRepeat) {
+      disabled = password !== passwordRepeat;
+    } else {
+      disabled = true;
+    }
+    return disabled;
+  }
 
   return (
     <Box
@@ -132,8 +128,7 @@ function SignUpPage(/* {}: Props */) {
             size="large"
             variant="contained"
             fullWidth
-            disabled={state.disabled}
-            // disabled={computeDisabled()}
+            disabled={isDisabled()}
           >
             Connexion
           </Button>
