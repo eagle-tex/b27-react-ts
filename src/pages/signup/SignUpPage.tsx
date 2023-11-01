@@ -119,62 +119,62 @@ function SignUpPage(/* {}: Props */) {
         </Typography>
         {/* </Box> */}
 
-        <Stack sx={{ width: '100%' }} spacing={2}>
-          {/* <form> */}
-          <TextField
-            id="username"
-            label="Identifiant"
-            placeholder="Identifiant"
-            variant="outlined"
-            name="username"
-            type="text"
-            fullWidth
-            onChange={onChangeUsername}
-          />
-          <TextField
-            id="email"
-            label="Email"
-            placeholder="votre@email.com"
-            variant="outlined"
-            name="email"
-            type="email"
-            fullWidth
-            onChange={onChangeEmail}
-          />
-          <TextField
-            id="password"
-            label="Mot de passe"
-            placeholder="••••••••"
-            variant="outlined"
-            name="password"
-            type="password"
-            fullWidth
-            onChange={onChangePassword}
-          />
-          <TextField
-            id="passwordRepeat"
-            label="Confirmer mot de passe"
-            placeholder="••••••••"
-            variant="outlined"
-            name="passwordRepeat"
-            type="password"
-            fullWidth
-            onChange={onChangePasswordRepeat}
-          />
+        <form>
+          <Stack sx={{ width: '100%' }} spacing={2}>
+            <TextField
+              id="username"
+              label="Identifiant"
+              placeholder="Identifiant"
+              variant="outlined"
+              name="username"
+              type="text"
+              fullWidth
+              onChange={onChangeUsername}
+            />
+            <TextField
+              id="email"
+              label="Email"
+              placeholder="votre@email.com"
+              variant="outlined"
+              name="email"
+              type="email"
+              fullWidth
+              onChange={onChangeEmail}
+            />
+            <TextField
+              id="password"
+              label="Mot de passe"
+              placeholder="••••••••"
+              variant="outlined"
+              name="password"
+              type="password"
+              fullWidth
+              onChange={onChangePassword}
+            />
+            <TextField
+              id="passwordRepeat"
+              label="Confirmer mot de passe"
+              placeholder="••••••••"
+              variant="outlined"
+              name="passwordRepeat"
+              type="password"
+              fullWidth
+              onChange={onChangePasswordRepeat}
+            />
 
-          <Button
-            color="success"
-            size="large"
-            variant="contained"
-            fullWidth
-            disabled={isDisabled()}
-            // onClick={() => submit}
-            onClick={submit}
-          >
-            Connexion
-          </Button>
-          {/* </form> */}
-        </Stack>
+            <Button
+              color="success"
+              size="large"
+              variant="contained"
+              fullWidth
+              disabled={isDisabled()}
+              // onClick={() => submit}
+              onClick={submit}
+            >
+              Connexion
+            </Button>
+          </Stack>
+        </form>
       </Box>
     </Box>
   );
