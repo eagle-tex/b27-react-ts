@@ -1,18 +1,40 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 
 // type Props = {}
 
 type SignupState = {
+  username: string;
+  email: string;
   password: string;
   passwordRepeat: string;
 };
 
 function SignUpPage(/* {}: Props */) {
   const [state, setState] = useState<SignupState>({
+    username: '',
+    email: '',
     password: '',
     passwordRepeat: '',
   });
+
+  const onChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const currentValue = event.target.value;
+    setState({
+      ...state,
+      username: currentValue,
+    });
+  };
+
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const currentValue = event.target.value;
+    setState({
+      ...state,
+      email: currentValue,
+    });
+  };
 
   const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentValue = event.target.value;
@@ -32,9 +54,24 @@ function SignUpPage(/* {}: Props */) {
     });
   };
 
-  useEffect(() => {
-    console.log(state);
-  });
+  const submit = (_event: React.MouseEvent) => {
+    // event.preventDefault();
+    const { email, password, username } = state;
+    const body = { username, email, password };
+    axios
+      .post('/api/1.0/users', body)
+      .then((_res) => {
+        // console.log(_res);
+        // console.log(_res.data);
+      })
+      .catch((_err) => {
+        // console.error(err)
+      });
+  };
+
+  // useEffect(() => {
+  //   console.log(state);
+  // });
 
   function isDisabled() {
     let disabled = true;
@@ -92,6 +129,7 @@ function SignUpPage(/* {}: Props */) {
             name="username"
             type="text"
             fullWidth
+            onChange={onChangeUsername}
           />
           <TextField
             id="email"
@@ -101,6 +139,7 @@ function SignUpPage(/* {}: Props */) {
             name="email"
             type="email"
             fullWidth
+            onChange={onChangeEmail}
           />
           <TextField
             id="password"
@@ -129,6 +168,8 @@ function SignUpPage(/* {}: Props */) {
             variant="contained"
             fullWidth
             disabled={isDisabled()}
+            // onClick={() => submit}
+            onClick={submit}
           >
             Connexion
           </Button>
