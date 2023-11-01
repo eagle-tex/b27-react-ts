@@ -132,6 +132,9 @@ module.exports = {
         peerDependencies: false,
       },
     ],
+
+    // https://stackoverflow.com/questions/54828209/use-array-destructuring-prefer-destructuring-error-on-eslint
+    'prefer-destructuring': ['error', { object: true, array: false }],
   },
   settings: {
     'import/parsers': {
