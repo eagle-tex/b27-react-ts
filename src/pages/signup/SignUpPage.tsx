@@ -108,7 +108,7 @@ function SignUpPage(/* {}: Props */) {
           textAlign="center"
           color="green"
         >
-          Connexion
+          Créer un compte
         </Typography>
         {/* </Box> */}
 
@@ -168,7 +168,7 @@ function SignUpPage(/* {}: Props */) {
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               // onClick={() => handleClick()}
             >
-              Connexion
+              Créer un compte
             </Button>
           </Stack>
         </form>

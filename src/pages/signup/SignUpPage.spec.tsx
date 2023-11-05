@@ -10,10 +10,10 @@ import SignUpPage from './SignUpPage.tsx';
 
 describe('Sign Up Page', () => {
   describe('Layout', () => {
-    it('001 - Renders "Connexion"', () => {
+    it('001 - Renders "Créer un compte"', () => {
       render(<SignUpPage />);
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-        'Connexion'
+        'Créer un compte'
       );
     });
 
@@ -57,15 +57,19 @@ describe('Sign Up Page', () => {
       expect(passwordRepeatInput).toHaveAttribute('type', 'password');
     });
 
-    it('008 - has "Connexion" button', () => {
+    it('008 - has "Créer un compte" button', () => {
       render(<SignUpPage />);
-      const signupButton = screen.queryByRole('button', { name: 'Connexion' });
+      const signupButton = screen.queryByRole('button', {
+        name: 'Créer un compte',
+      });
       expect(signupButton).toBeInTheDocument();
     });
 
     it('009 - disables the button initially', () => {
       render(<SignUpPage />);
-      const signupButton = screen.queryByRole('button', { name: 'Connexion' });
+      const signupButton = screen.queryByRole('button', {
+        name: 'Créer un compte',
+      });
       expect(signupButton).toBeDisabled();
     });
   });
@@ -81,7 +85,9 @@ describe('Sign Up Page', () => {
 
       await user.type(passwordInput, 'P4ssword');
       await user.type(passwordRepeatInput, 'P4ssword');
-      const signupButton = screen.queryByRole('button', { name: 'Connexion' });
+      const signupButton = screen.queryByRole('button', {
+        name: 'Créer un compte',
+      });
 
       expect(signupButton).toBeEnabled();
     });
@@ -109,7 +115,9 @@ describe('Sign Up Page', () => {
       const passwordRepeatInput = screen.getByLabelText(
         'Confirmer mot de passe'
       );
-      const signupButton = screen.queryByRole('button', { name: 'Connexion' });
+      const signupButton = screen.queryByRole('button', {
+        name: 'Créer un compte',
+      });
       await user.type(usernameInput, 'user1');
       await user.type(emailInput, 'user1@mail.com');
       await user.type(passwordInput, 'P4ssword');
