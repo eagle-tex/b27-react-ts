@@ -132,5 +132,19 @@ describe('Sign Up Page', () => {
 
       expect(signupButton).toBeDisabled();
     });
+
+    it('013 - displays spinner while the API request is in progress', async () => {
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, () => {
+          return HttpResponse.json({ status: 201 });
+        })
+      );
+      await setup();
+
+      await user.click(signupButton as HTMLElement);
+      const spinner = screen.getByRole('status', { hidden: true });
+
+      expect(spinner).toBeInTheDocument();
+    });
   });
 });
