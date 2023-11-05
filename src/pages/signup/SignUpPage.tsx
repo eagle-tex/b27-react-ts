@@ -37,37 +37,7 @@ function SignUpPage(/* {}: Props */) {
     const body = { username, email, password };
     setState({ ...state, apiProgress: true });
     return postUser(body);
-    // axios
-    //   .post('http://localhost:3030/api/v1/users', body)
-    //   .then((response) =>
-    //     console.log({
-    //       where: 'in handleSubmit',
-    //       status: response.status,
-    //       data: response.data as unknown,
-    //     })
-    //   )
-    //   .catch((err) => console.log(err));
   };
-
-  // const handleSubmit = (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   const { email, password, username } = state;
-  //   const body = { username, email, password };
-  //   axios
-  //     .post('http://localhost:3030/api/v1/users', body)
-  //     .then((response) =>
-  //       console.log({
-  //         where: 'in handleSubmit',
-  //         status: response.status,
-  //         data: response.data as unknown,
-  //       })
-  //     )
-  //     .catch((err) => console.log(err));
-  // };
-
-  // useEffect(() => {
-  //   console.log(state);
-  // });
 
   function isDisabled() {
     let disabled = true;
@@ -95,8 +65,6 @@ function SignUpPage(/* {}: Props */) {
         p={4}
         minWidth="400px"
         maxWidth="500px"
-        // borderWidth={1}
-        // borderRadius={8}
         sx={{
           border: 1,
           borderColor: '#aaaccc',
@@ -113,7 +81,6 @@ function SignUpPage(/* {}: Props */) {
         >
           Créer un compte
         </Typography>
-        {/* </Box> */}
 
         {/* <form onSubmit={handleSubmit}> */}
         <form>
@@ -167,9 +134,6 @@ function SignUpPage(/* {}: Props */) {
               disabled={isDisabled()}
               type="submit"
               onClick={submit}
-              // onClick={() => submit}
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              // onClick={() => handleClick()}
             >
               Créer un compte
             </Button>
