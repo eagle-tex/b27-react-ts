@@ -11,6 +11,7 @@ type SignupState = {
   email: string;
   password: string;
   passwordRepeat: string;
+  apiProgress: boolean;
 };
 
 function SignUpPage(/* {}: Props */) {
@@ -19,6 +20,7 @@ function SignUpPage(/* {}: Props */) {
     email: '',
     password: '',
     passwordRepeat: '',
+    apiProgress: false,
   });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +35,7 @@ function SignUpPage(/* {}: Props */) {
     event.preventDefault();
     const { email, password, username } = state;
     const body = { username, email, password };
+    setState({ ...state, apiProgress: true });
     return postUser(body);
     // axios
     //   .post('http://localhost:3030/api/v1/users', body)
@@ -68,9 +71,9 @@ function SignUpPage(/* {}: Props */) {
 
   function isDisabled() {
     let disabled = true;
-    const { password, passwordRepeat } = state;
+    const { apiProgress, password, passwordRepeat } = state;
     if (password && passwordRepeat) {
-      disabled = password !== passwordRepeat;
+      disabled = password !== passwordRepeat || apiProgress;
     } else {
       disabled = true;
     }
