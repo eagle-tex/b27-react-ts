@@ -39,6 +39,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     // reporters: ['html'],
-    setupFiles: ['./src/setupTests.ts'],
+    root: __dirname,
+    setupFiles: ['./src/setupTests.ts', './vitest.setup.ts'],
   },
 });
