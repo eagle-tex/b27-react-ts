@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
-import axios from 'axios';
 import React, { useState } from 'react';
+
+import { postUser } from '@/api/apiCalls.ts';
 
 // type Props = {}
 
@@ -20,54 +21,46 @@ function SignUpPage(/* {}: Props */) {
     passwordRepeat: '',
   });
 
-  const onChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const currentValue = event.target.value;
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
     setState({
       ...state,
-      username: currentValue,
+      [id]: value,
     });
   };
 
-  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const currentValue = event.target.value;
-    setState({
-      ...state,
-      email: currentValue,
-    });
-  };
-
-  const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const currentValue = event.target.value;
-    setState({
-      ...state,
-      password: currentValue,
-    });
-  };
-
-  const onChangePasswordRepeat = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const currentValue = event.target.value;
-    setState({
-      ...state,
-      passwordRepeat: currentValue,
-    });
-  };
-
-  const submit = (_event: React.MouseEvent) => {
-    // event.preventDefault();
+  const submit = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     const { email, password, username } = state;
     const body = { username, email, password };
-    axios
-      .post('/api/1.0/users', body)
-      .then((_res) => {
-        // console.log(_res);
-        // console.log(_res.data);
-      })
-      .catch((_err) => {
-        // console.error(err)
-      });
+    return postUser(body);
+    // axios
+    //   .post('http://localhost:3030/api/v1/users', body)
+    //   .then((response) =>
+    //     console.log({
+    //       where: 'in handleSubmit',
+    //       status: response.status,
+    //       data: response.data as unknown,
+    //     })
+    //   )
+    //   .catch((err) => console.log(err));
   };
+
+  // const handleSubmit = (event: React.FormEvent) => {
+  //   event.preventDefault();
+  //   const { email, password, username } = state;
+  //   const body = { username, email, password };
+  //   axios
+  //     .post('http://localhost:3030/api/v1/users', body)
+  //     .then((response) =>
+  //       console.log({
+  //         where: 'in handleSubmit',
+  //         status: response.status,
+  //         data: response.data as unknown,
+  //       })
+  //     )
+  //     .catch((err) => console.log(err));
+  // };
 
   // useEffect(() => {
   //   console.log(state);
@@ -119,6 +112,7 @@ function SignUpPage(/* {}: Props */) {
         </Typography>
         {/* </Box> */}
 
+        {/* <form onSubmit={handleSubmit}> */}
         <form>
           <Stack sx={{ width: '100%' }} spacing={2}>
             <TextField
@@ -129,7 +123,7 @@ function SignUpPage(/* {}: Props */) {
               name="username"
               type="text"
               fullWidth
-              onChange={onChangeUsername}
+              onChange={onChange}
             />
             <TextField
               id="email"
@@ -139,7 +133,7 @@ function SignUpPage(/* {}: Props */) {
               name="email"
               type="email"
               fullWidth
-              onChange={onChangeEmail}
+              onChange={onChange}
             />
             <TextField
               id="password"
@@ -149,7 +143,7 @@ function SignUpPage(/* {}: Props */) {
               name="password"
               type="password"
               fullWidth
-              onChange={onChangePassword}
+              onChange={onChange}
             />
             <TextField
               id="passwordRepeat"
@@ -159,7 +153,7 @@ function SignUpPage(/* {}: Props */) {
               name="passwordRepeat"
               type="password"
               fullWidth
-              onChange={onChangePasswordRepeat}
+              onChange={onChange}
             />
 
             <Button
@@ -168,8 +162,11 @@ function SignUpPage(/* {}: Props */) {
               variant="contained"
               fullWidth
               disabled={isDisabled()}
-              // onClick={() => submit}
+              type="submit"
               onClick={submit}
+              // onClick={() => submit}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              // onClick={() => handleClick()}
             >
               Connexion
             </Button>
