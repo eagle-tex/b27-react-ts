@@ -49,6 +49,10 @@ module.exports = {
     ],
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-explicit-any': 'warn', // to be able to use type any
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      { checksVoidReturn: { arguments: false, attributes: false } },
+    ],
     'no-unused-vars': 'off', // necessary for typescript/no-unused-vars
     '@typescript-eslint/no-unused-vars': 'warn', // to allow unused vars
     'import/prefer-default-export': 'off',
@@ -122,19 +126,20 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: [
-          '**/*.spec.ts',
-          '**/*.spec.tsx',
-          '**/*.test.ts',
-          '**/*.test.tsx',
-        ],
+        // devDependencies: [
+        //   '**/*.spec.ts',
+        //   '**/*.spec.tsx',
+        //   '**/*.test.ts',
+        //   '**/*.test.tsx',
+        // ],
+        devDependencies: true,
         optionalDependencies: false,
         peerDependencies: false,
       },
     ],
 
     // https://stackoverflow.com/questions/54828209/use-array-destructuring-prefer-destructuring-error-on-eslint
-    'prefer-destructuring': ['error', { object: true, array: false }],
+    'prefer-destructuring': ['error', { object: true, array: false }], // both default to true
   },
   settings: {
     'import/parsers': {
