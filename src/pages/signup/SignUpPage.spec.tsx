@@ -75,83 +75,60 @@ describe('Sign Up Page', () => {
   });
 
   describe('Interactions', () => {
-    it('010 - enables the button when password and password repeat fields have the same value', async () => {
-      const user = userEvent.setup();
+    let signupButton: HTMLElement | null;
+    const user = userEvent.setup();
+
+    const setup = async () => {
       render(<SignUpPage />);
-      const passwordInput = screen.getByLabelText('Mot de passe');
-      const passwordRepeatInput = screen.getByLabelText(
-        'Confirmer mot de passe'
-      );
-
-      await user.type(passwordInput, 'P4ssword');
-      await user.type(passwordRepeatInput, 'P4ssword');
-      const signupButton = screen.queryByRole('button', {
-        name: 'Créer un compte',
-      });
-
-      expect(signupButton).toBeEnabled();
-    });
-
-    it('011 - sends username, email and password to backend after clicking the submit button', async () => {
-      const user = userEvent.setup();
-      let postResponse;
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
-          postResponse = await request.json();
-          return HttpResponse.json(postResponse, { status: 201 });
-        })
-      );
-      render(<SignUpPage />);
-
       const usernameInput = screen.getByLabelText('Identifiant');
       const emailInput = screen.getByLabelText('Email');
       const passwordInput = screen.getByLabelText('Mot de passe');
       const passwordRepeatInput = screen.getByLabelText(
         'Confirmer mot de passe'
       );
-      const signupButton = screen.queryByRole('button', {
-        name: 'Créer un compte',
-      });
+
       await user.type(usernameInput, 'user1');
       await user.type(emailInput, 'user1@mail.com');
       await user.type(passwordInput, 'P4ssword');
       await user.type(passwordRepeatInput, 'P4ssword');
 
+      signupButton = screen.queryByRole('button', {
+        name: 'Créer un compte',
+      });
+    };
+
+    it('010 - enables the button when password and password repeat fields have the same value', async () => {
+      await setup();
+
+      expect(signupButton).toBeEnabled();
+    });
+
+    it('011 - sends username, email and password to backend after clicking the submit button', async () => {
+      let responseBody;
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
+          responseBody = await request.json();
+          return HttpResponse.json(responseBody, { status: 201 });
+        })
+      );
+      await setup();
+
       await user.click(signupButton as HTMLElement);
 
-      expect(postResponse).toStrictEqual(mockedUser);
+      expect(responseBody).toStrictEqual(mockedUser);
     });
 
     it('012 - disables button when there is an ongoing API call', async () => {
-      const user = userEvent.setup();
-      // const user = userEvent.setup({ skipHover: true });
-
-      // let counter = 0;
       server.use(
         http.post(`${BASE_URL}/api/v1/users`, () => {
           // counter += 1;
           return HttpResponse.json({ status: 201 });
         })
       );
-      render(<SignUpPage />);
-
-      const usernameInput = screen.getByLabelText('Identifiant');
-      const emailInput = screen.getByLabelText('Email');
-      const passwordInput = screen.getByLabelText('Mot de passe');
-      const passwordRepeatInput = screen.getByLabelText(
-        'Confirmer mot de passe'
-      );
-      const signupButton = screen.getByRole('button', {
-        name: 'Créer un compte',
-      });
-      await user.type(usernameInput, 'user1');
-      await user.type(emailInput, 'user1@mail.com');
-      await user.type(passwordInput, 'P4ssword');
-      await user.type(passwordRepeatInput, 'P4ssword');
-
+      await setup();
       expect(signupButton).toBeEnabled();
 
-      await user.click(signupButton);
+      await user.click(signupButton as HTMLElement);
 
       expect(signupButton).toBeDisabled();
     });
