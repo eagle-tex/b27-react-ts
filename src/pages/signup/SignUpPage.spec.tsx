@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HttpResponse, http } from 'msw';
 
-import Axios, { BASE_URL } from '@/api/axiosConfig.ts';
+import { BASE_URL } from '@/api/axiosConfig.ts';
 import { mockedUser } from '@/mocks/handlers.ts';
 import { server } from '@/mocks/server.ts';
 
@@ -92,23 +92,17 @@ describe('Sign Up Page', () => {
       expect(signupButton).toBeEnabled();
     });
 
-    it.only('011 - sends username, email and password to backend after clicking the submit button', async () => {
-      // console.log({
-      //   env: process.env.NODE_ENV,
-      //   // handlers: JSON.stringify(server.listHandlers()),
-      //   handlers: server.listHandlers(),
-      // });
-      let response;
+    it('011 - sends username, email and password to backend after clicking the submit button', async () => {
+      const user = userEvent.setup();
+      let postResponse;
       server.use(
         http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
-          response = await request.json();
-          console.log({ where: 'POST HANDLER in Test 11', response });
-          return HttpResponse.json(response, { status: 201 });
+          postResponse = await request.json();
+          return HttpResponse.json(postResponse, { status: 201 });
         })
       );
       render(<SignUpPage />);
 
-      const user = userEvent.setup();
       const usernameInput = screen.getByLabelText('Identifiant');
       const emailInput = screen.getByLabelText('Email');
       const passwordInput = screen.getByLabelText('Mot de passe');
@@ -123,14 +117,43 @@ describe('Sign Up Page', () => {
       await user.type(passwordInput, 'P4ssword');
       await user.type(passwordRepeatInput, 'P4ssword');
 
-      console.log('START');
       await user.click(signupButton as HTMLElement);
-      console.log('END');
 
-      const getResponse = await Axios.get('/api/v1/users');
-      console.log({ where: 'IN TEST 11.2', response, getResponse });
+      expect(postResponse).toStrictEqual(mockedUser);
+    });
 
-      expect(response).toStrictEqual(mockedUser);
+    it('012 - disables button when there is an ongoing API call', async () => {
+      const user = userEvent.setup();
+      // const user = userEvent.setup({ skipHover: true });
+
+      // let counter = 0;
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, () => {
+          // counter += 1;
+          return HttpResponse.json({ status: 201 });
+        })
+      );
+      render(<SignUpPage />);
+
+      const usernameInput = screen.getByLabelText('Identifiant');
+      const emailInput = screen.getByLabelText('Email');
+      const passwordInput = screen.getByLabelText('Mot de passe');
+      const passwordRepeatInput = screen.getByLabelText(
+        'Confirmer mot de passe'
+      );
+      const signupButton = screen.getByRole('button', {
+        name: 'Créer un compte',
+      });
+      await user.type(usernameInput, 'user1');
+      await user.type(emailInput, 'user1@mail.com');
+      await user.type(passwordInput, 'P4ssword');
+      await user.type(passwordRepeatInput, 'P4ssword');
+
+      expect(signupButton).toBeEnabled();
+
+      await user.click(signupButton);
+
+      expect(signupButton).toBeDisabled();
     });
   });
 });
