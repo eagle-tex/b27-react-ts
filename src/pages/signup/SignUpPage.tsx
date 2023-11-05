@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+// import CircularProgress from '@mui/material/CircularProgress';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
 
 import { postUser } from '@/api/apiCalls.ts';
@@ -39,9 +47,9 @@ function SignUpPage(/* {}: Props */) {
     return postUser(body);
   };
 
+  const { apiProgress, password, passwordRepeat } = state;
   function isDisabled() {
     let disabled = true;
-    const { apiProgress, password, passwordRepeat } = state;
     if (password && passwordRepeat) {
       disabled = password !== passwordRepeat || apiProgress;
     } else {
@@ -127,7 +135,7 @@ function SignUpPage(/* {}: Props */) {
             />
 
             <Button
-              color="success"
+              color="primary"
               size="large"
               variant="contained"
               fullWidth
@@ -135,6 +143,9 @@ function SignUpPage(/* {}: Props */) {
               type="submit"
               onClick={submit}
             >
+              <span role="status" style={{ marginRight: '1rem' }}>
+                <CircularProgress size={16} />{' '}
+              </span>
               Créer un compte
             </Button>
           </Stack>
