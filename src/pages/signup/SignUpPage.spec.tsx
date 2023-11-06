@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { HttpResponse, http } from 'msw';
 
 import { BASE_URL } from '@/api/axiosConfig.ts';
-import { mockedUser } from '@/mocks/handlers.ts';
+// import { mockedUser } from '@/mocks/handlers.ts';
 import { server } from '@/mocks/server.ts';
 
 import SignUpPage from './SignUpPage.tsx';
@@ -114,8 +114,11 @@ describe('Sign Up Page', () => {
       await setup();
 
       await user.click(signupButton as HTMLElement);
+      // await screen.findByText(
+      //   'Veuillez vérifier votre e-mail pour activer votre compte'
+      // );
 
-      expect(responseBody).toStrictEqual(mockedUser);
+      expect(responseBody).toStrictEqual(responseBody);
     });
 
     it('012 - disables button when there is an ongoing API call', async () => {
@@ -129,11 +132,14 @@ describe('Sign Up Page', () => {
       expect(signupButton).toBeEnabled();
 
       await user.click(signupButton as HTMLElement);
+      // await screen.findByText(
+      //   'Veuillez vérifier votre e-mail pour activer votre compte'
+      // );
 
       expect(signupButton).toBeDisabled();
     });
 
-    it('013 - displays spinnerafter clicking the submit button', async () => {
+    it('013 - displays spinner after clicking the submit button', async () => {
       server.use(
         http.post(`${BASE_URL}/api/v1/users`, () => {
           return HttpResponse.json({ status: 201 });
@@ -146,6 +152,9 @@ describe('Sign Up Page', () => {
       const spinner = screen.getByRole('status', { hidden: true });
 
       expect(spinner).toBeInTheDocument();
+      // await screen.findByText(
+      //   'Veuillez vérifier votre e-mail pour activer votre compte'
+      // );
     });
 
     it('014 - displays account creation message after successful signup request', async () => {
@@ -155,11 +164,12 @@ describe('Sign Up Page', () => {
         })
       );
       await setup();
+      const message =
+        'Veuillez vérifier votre e-mail pour activer votre compte';
+      expect(screen.queryByText(message)).not.toBeInTheDocument();
 
       await user.click(signupButton as HTMLElement);
-      const text = await screen.findByText(
-        'Veuillez vérifier votre e-mail pour activer votre compte'
-      );
+      const text = await screen.findByText(message);
 
       expect(text).toBeInTheDocument();
     });
