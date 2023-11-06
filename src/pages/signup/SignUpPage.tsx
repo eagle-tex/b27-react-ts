@@ -21,6 +21,7 @@ type SignupState = {
   password: string;
   passwordRepeat: string;
   apiProgress: boolean;
+  signupSuccess: boolean;
 };
 
 function SignUpPage(/* {}: Props */) {
@@ -30,13 +31,13 @@ function SignUpPage(/* {}: Props */) {
     password: '',
     passwordRepeat: '',
     apiProgress: false,
+    signupSuccess: false,
   });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
-    setState({
-      ...state,
-      [id]: value,
+    setState((prevState) => {
+      return { ...prevState, [id]: value };
     });
   };
 
@@ -45,10 +46,24 @@ function SignUpPage(/* {}: Props */) {
     const { email, password, username } = state;
     const body = { username, email, password };
     setState({ ...state, apiProgress: true });
-    return postUser(body);
+    try {
+      postUser(body);
+      setState((prevState) => {
+        return { ...prevState, signupSuccess: true };
+      });
+      // console.log({ where: 'in submit, after postUser call', state });
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   };
 
-  const { apiProgress, password, passwordRepeat } = state;
+  // useEffect(() => {
+  //   console.log(state);
+  // }, [state]);
+
+  const { apiProgress, password, passwordRepeat, signupSuccess } = state;
+  // console.log({ state });
   function isDisabled() {
     let disabled = true;
     if (password && passwordRepeat) {
@@ -154,9 +169,11 @@ function SignUpPage(/* {}: Props */) {
           </Stack>
         </form>
 
-        <Alert severity="info">
-          Veuillez vérifier votre e-mail pour activer votre compte
-        </Alert>
+        {signupSuccess && (
+          <Alert severity="info">
+            Veuillez vérifier votre e-mail pour activer votre compte
+          </Alert>
+        )}
       </Box>
     </Box>
   );
