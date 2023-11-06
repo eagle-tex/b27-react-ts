@@ -146,5 +146,14 @@ describe('Sign Up Page', () => {
 
       expect(spinner).toBeInTheDocument();
     });
+
+    it('014 - does not display spinner when there is no API request', async () => {
+      await setup();
+      // use queryByRole instead of getByRole because
+      // queryByRole returns null if not found, whereas getByRole throws if not found
+      const spinner = screen.queryByRole('status', { hidden: true });
+
+      expect(spinner).not.toBeInTheDocument();
+    });
   });
 });
