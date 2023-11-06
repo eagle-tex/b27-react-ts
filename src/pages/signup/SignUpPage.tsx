@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import CircularProgress from '@mui/material/CircularProgress';
 import {
+  Alert,
   Box,
   Button,
   CircularProgress,
@@ -152,6 +153,10 @@ function SignUpPage(/* {}: Props */) {
             </Button>
           </Stack>
         </form>
+
+        <Alert severity="info">
+          Veuillez vérifier votre e-mail pour activer votre compte
+        </Alert>
       </Box>
     </Box>
   );
