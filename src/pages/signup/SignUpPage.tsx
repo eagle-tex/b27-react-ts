@@ -143,9 +143,11 @@ function SignUpPage(/* {}: Props */) {
               type="submit"
               onClick={submit}
             >
-              <span role="status" style={{ marginRight: '1rem' }}>
-                <CircularProgress size={16} />{' '}
-              </span>
+              {apiProgress && (
+                <span role="status" style={{ marginRight: '1rem' }}>
+                  <CircularProgress size={16} />{' '}
+                </span>
+              )}
               Créer un compte
             </Button>
           </Stack>
