@@ -148,13 +148,20 @@ describe('Sign Up Page', () => {
       expect(spinner).toBeInTheDocument();
     });
 
-    it('014 - does not display spinner when there is no API request', async () => {
+    it('014 - displays account creation message after successful signup request', async () => {
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, () => {
+          return HttpResponse.json({ status: 201 });
+        })
+      );
       await setup();
-      // use queryByRole instead of getByRole because
-      // queryByRole returns null if not found, whereas getByRole throws if not found
-      const spinner = screen.queryByRole('status', { hidden: true });
 
-      expect(spinner).not.toBeInTheDocument();
+      await user.click(signupButton as HTMLElement);
+      const text = await screen.findByText(
+        'Veuillez vérifier votre e-mail pour activer votre compte'
+      );
+
+      expect(text).toBeInTheDocument();
     });
   });
 });
