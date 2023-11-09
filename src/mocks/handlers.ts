@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { HttpResponse, http } from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
 import { BASE_URL } from '@/api/axiosConfig.ts';
 
@@ -12,6 +12,7 @@ export const mockedUser = {
 export const postUserMock = http.post(
   `${BASE_URL}/api/v1/users`,
   async ({ request }) => {
+    await delay(2000);
     const response = await request.json();
     console.log({ where: 'IN POST HANDLER', response });
     return HttpResponse.json(response, { status: 201 });

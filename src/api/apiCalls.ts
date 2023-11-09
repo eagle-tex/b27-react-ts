@@ -2,7 +2,7 @@
 
 import Axios from '@/api/axiosConfig.ts';
 
-type Body = {
+export type Body = {
   username: string;
   email: string;
   password: string;

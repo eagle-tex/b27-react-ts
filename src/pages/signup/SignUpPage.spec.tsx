@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HttpResponse, http } from 'msw';
 
@@ -76,7 +76,7 @@ describe('Sign Up Page', () => {
 
   describe('Interactions', () => {
     let signupButton: HTMLElement | null;
-    const user = userEvent.setup();
+    const user = userEvent.setup({ skipHover: true });
 
     const setup = async () => {
       render(<SignUpPage />);
@@ -122,9 +122,10 @@ describe('Sign Up Page', () => {
     });
 
     it('012 - disables button when there is an ongoing API call', async () => {
+      let counter = 0;
       server.use(
         http.post(`${BASE_URL}/api/v1/users`, () => {
-          // counter += 1;
+          counter += 1;
           return HttpResponse.json({ status: 201 });
         })
       );
@@ -132,11 +133,12 @@ describe('Sign Up Page', () => {
       expect(signupButton).toBeEnabled();
 
       await user.click(signupButton as HTMLElement);
-      // await screen.findByText(
-      //   'Veuillez vérifier votre e-mail pour activer votre compte'
-      // );
+      await user.click(signupButton as HTMLElement);
 
-      expect(signupButton).toBeDisabled();
+      // eslint-disable-next-line no-console
+      console.log({ where: '012', signupButton });
+      expect(counter).toBe(1);
+      // expect(signupButton).toBeDisabled();
     });
 
     it('013 - displays spinner after clicking the submit button', async () => {
@@ -150,6 +152,7 @@ describe('Sign Up Page', () => {
 
       await user.click(signupButton as HTMLElement);
       const spinner = screen.getByRole('status', { hidden: true });
+      // const spinner = screen.getByRole('status');
 
       expect(spinner).toBeInTheDocument();
       // await screen.findByText(
@@ -172,6 +175,22 @@ describe('Sign Up Page', () => {
       const text = await screen.findByText(message);
 
       expect(text).toBeInTheDocument();
+    });
+
+    it('015 - hides sign up form after successful sign up request', async () => {
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, () => {
+          return HttpResponse.json({ status: 201 });
+        })
+      );
+      await setup();
+      const form = screen.getByTestId('form-signup');
+
+      await user.click(signupButton as HTMLElement);
+
+      await waitFor(() => {
+        expect(form).not.toBeInTheDocument();
+      });
     });
   });
 });
