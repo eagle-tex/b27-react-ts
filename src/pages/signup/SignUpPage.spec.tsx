@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { HttpResponse, http } from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
 import { BASE_URL } from '@/api/axiosConfig.ts';
 // import { mockedUser } from '@/mocks/handlers.ts';
@@ -133,17 +133,18 @@ describe('Sign Up Page', () => {
       expect(signupButton).toBeEnabled();
 
       await user.click(signupButton as HTMLElement);
-      await user.click(signupButton as HTMLElement);
+      // await user.click(signupButton as HTMLElement);
 
       // eslint-disable-next-line no-console
       console.log({ where: '012', signupButton });
       expect(counter).toBe(1);
-      // expect(signupButton).toBeDisabled();
+      expect(signupButton).toBeDisabled();
     });
 
     it('013 - displays spinner after clicking the submit button', async () => {
       server.use(
-        http.post(`${BASE_URL}/api/v1/users`, () => {
+        http.post(`${BASE_URL}/api/v1/users`, async () => {
+          await delay(100);
           return HttpResponse.json({ status: 201 });
         })
       );
@@ -151,8 +152,10 @@ describe('Sign Up Page', () => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
 
       await user.click(signupButton as HTMLElement);
-      const spinner = screen.getByRole('status', { hidden: true });
-      // const spinner = screen.getByRole('status');
+      // const spinner = screen.getByRole('status', { hidden: true });
+      const spinner = screen.getByRole('status');
+
+      console.log({ where: '013', spinner });
 
       expect(spinner).toBeInTheDocument();
       // await screen.findByText(
