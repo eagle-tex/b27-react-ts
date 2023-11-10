@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { HttpResponse, delay, http } from 'msw';
+import { DefaultBodyType, HttpResponse, delay, http } from 'msw';
+// import { setupServer } from 'msw/node';
 
 import { BASE_URL } from '@/api/axiosConfig.ts';
 // import { mockedUser } from '@/mocks/handlers.ts';
@@ -75,6 +76,46 @@ describe('Sign Up Page', () => {
   });
 
   describe('Interactions', () => {
+    let requestBody: DefaultBodyType;
+    let counter = 0;
+    // const server = setupServer();
+    // server.use(
+    //   http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
+    //     requestBody = await request.json();
+    //     counter += 1;
+    //     console.log('tailored server');
+    //     await delay(100);
+    //     return HttpResponse.json(requestBody, { status: 201 });
+    //   })
+    // );
+
+    beforeAll(() => {
+      console.log('BEFORE ALL');
+      // return server.listen();
+    });
+
+    beforeEach(() => {
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
+          requestBody = await request.json();
+          counter += 1;
+          console.log('tailored server for "Interactions"');
+          await delay(100);
+          return HttpResponse.json(requestBody, { status: 201 });
+        })
+      );
+
+      counter = 0;
+    });
+
+    afterEach(() => {
+      // This will remove any runtime request handlers
+      // after each test, ensuring isolated network behavior.
+      server.resetHandlers();
+    });
+
+    afterAll(() => server.close());
+
     let signupButton: HTMLElement | null;
     const user = userEvent.setup({ skipHover: true });
 
@@ -104,13 +145,6 @@ describe('Sign Up Page', () => {
     });
 
     it('011 - sends username, email and password to backend after clicking the submit button', async () => {
-      let responseBody;
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
-          responseBody = await request.json();
-          return HttpResponse.json(responseBody, { status: 201 });
-        })
-      );
       await setup();
 
       await user.click(signupButton as HTMLElement);
@@ -118,17 +152,10 @@ describe('Sign Up Page', () => {
       //   'Veuillez vérifier votre e-mail pour activer votre compte'
       // );
 
-      expect(responseBody).toStrictEqual(responseBody);
+      expect(requestBody).toStrictEqual(requestBody);
     });
 
     it('012 - disables button when there is an ongoing API call', async () => {
-      let counter = 0;
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, () => {
-          counter += 1;
-          return HttpResponse.json({ status: 201 });
-        })
-      );
       await setup();
       expect(signupButton).toBeEnabled();
 
@@ -139,12 +166,6 @@ describe('Sign Up Page', () => {
     });
 
     it('013 - displays spinner after clicking the submit button', async () => {
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, async () => {
-          await delay(300);
-          return HttpResponse.json({ status: 201 });
-        })
-      );
       await setup();
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
 
@@ -159,11 +180,6 @@ describe('Sign Up Page', () => {
     });
 
     it('014 - displays account creation message after successful signup request', async () => {
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, () => {
-          return HttpResponse.json({ status: 201 });
-        })
-      );
       await setup();
       const message =
         'Veuillez vérifier votre e-mail pour activer votre compte';
@@ -176,16 +192,12 @@ describe('Sign Up Page', () => {
     });
 
     it('015 - hides sign up form after successful sign up request', async () => {
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, () => {
-          return HttpResponse.json({ status: 201 });
-        })
-      );
       await setup();
       const form = screen.getByTestId('form-signup');
 
       await user.click(signupButton as HTMLElement);
 
+      // await waitForElementToBeRemoved(form);
       await waitFor(() => {
         expect(form).not.toBeInTheDocument();
       });
