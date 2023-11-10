@@ -133,10 +133,7 @@ describe('Sign Up Page', () => {
       expect(signupButton).toBeEnabled();
 
       await user.click(signupButton as HTMLElement);
-      // await user.click(signupButton as HTMLElement);
 
-      // eslint-disable-next-line no-console
-      console.log({ where: '012', signupButton });
       expect(counter).toBe(1);
       expect(signupButton).toBeDisabled();
     });
@@ -144,7 +141,7 @@ describe('Sign Up Page', () => {
     it('013 - displays spinner after clicking the submit button', async () => {
       server.use(
         http.post(`${BASE_URL}/api/v1/users`, async () => {
-          await delay(100);
+          await delay(300);
           return HttpResponse.json({ status: 201 });
         })
       );
@@ -154,8 +151,6 @@ describe('Sign Up Page', () => {
       await user.click(signupButton as HTMLElement);
       // const spinner = screen.getByRole('status', { hidden: true });
       const spinner = screen.getByRole('status');
-
-      console.log({ where: '013', spinner });
 
       expect(spinner).toBeInTheDocument();
       // await screen.findByText(
