@@ -78,28 +78,12 @@ describe('Sign Up Page', () => {
   describe('Interactions', () => {
     let requestBody: DefaultBodyType;
     let counter = 0;
-    // const server = setupServer();
-    // server.use(
-    //   http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
-    //     requestBody = await request.json();
-    //     counter += 1;
-    //     console.log('tailored server');
-    //     await delay(100);
-    //     return HttpResponse.json(requestBody, { status: 201 });
-    //   })
-    // );
-
-    beforeAll(() => {
-      console.log('BEFORE ALL');
-      // return server.listen();
-    });
 
     beforeEach(() => {
       server.use(
         http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
           requestBody = await request.json();
           counter += 1;
-          console.log('tailored server for "Interactions"');
           await delay(100);
           return HttpResponse.json(requestBody, { status: 201 });
         })
@@ -148,9 +132,6 @@ describe('Sign Up Page', () => {
       await setup();
 
       await user.click(signupButton as HTMLElement);
-      // await screen.findByText(
-      //   'Veuillez vérifier votre e-mail pour activer votre compte'
-      // );
 
       expect(requestBody).toStrictEqual(requestBody);
     });
@@ -170,13 +151,9 @@ describe('Sign Up Page', () => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
 
       await user.click(signupButton as HTMLElement);
-      // const spinner = screen.getByRole('status', { hidden: true });
       const spinner = screen.getByRole('status');
 
       expect(spinner).toBeInTheDocument();
-      // await screen.findByText(
-      //   'Veuillez vérifier votre e-mail pour activer votre compte'
-      // );
     });
 
     it('014 - displays account creation message after successful signup request', async () => {

@@ -65,10 +65,6 @@ function SignUpPage(/* {}: Props */) {
     });
     try {
       postUser(body);
-      // setState((prevState) => {
-      //   return { ...prevState, signupSuccess: true };
-      // });
-      // console.log({ where: 'in submit, after postUser call', state });
     } catch (err) {
       console.log({ where: 'CATCH BLOCK', err });
       throw err;
