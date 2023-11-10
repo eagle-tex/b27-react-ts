@@ -12,7 +12,7 @@ export const mockedUser = {
 export const postUserMock = http.post(
   `${BASE_URL}/api/v1/users`,
   async ({ request }) => {
-    await delay(2000);
+    await delay(300);
     const response = await request.json();
     console.log({ where: 'IN POST HANDLER', response });
     return HttpResponse.json(response, { status: 201 });
