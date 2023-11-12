@@ -180,36 +180,45 @@ describe('Sign Up Page', () => {
       });
     });
 
-    it('016 - displays validation message for username', async () => {
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, async (/* { request } */) => {
+    const generateValidationError = (field: string, message: string) => {
+      return http.post(
+        `${BASE_URL}/api/v1/users`,
+        async (/* { request } */) => {
           // requestBody = await request.json();
           await delay(100);
           return HttpResponse.json(
-            { validationErrors: { username: 'Username cannot be null' } },
+            { validationErrors: { [field]: message } },
             { status: 400 }
           );
-        })
+        }
       );
-      await setup();
+    };
 
-      await user.click(signupButton as HTMLElement);
-      const usernameValidationError = await screen.findByText(
-        'Username cannot be null'
-      );
+    interface ITestFields {
+      field: string;
+      message: string;
+    }
 
-      expect(usernameValidationError).toBeInTheDocument();
-    });
+    it.each`
+      testNumber | field         | message
+      ${'016'}   | ${'username'} | ${'Username cannot be null'}
+      ${'018'}   | ${'email'}    | ${'E-mail cannot be null'}
+    `(
+      '$testNumber - displays $message for $field',
+      async ({ field, message }: ITestFields) => {
+        server.use(generateValidationError(field, message));
+        await setup();
+
+        await user.click(signupButton as HTMLElement);
+        const validationError = await screen.findByText(message);
+
+        expect(validationError).toBeInTheDocument();
+      }
+    );
 
     it('017 - hides spinner and enables button after receiving response', async () => {
       server.use(
-        http.post(`${BASE_URL}/api/v1/users`, async (/* { request } */) => {
-          await delay(100);
-          return HttpResponse.json(
-            { validationErrors: { username: 'Username cannot be null' } },
-            { status: 400 }
-          );
-        })
+        generateValidationError('username', 'Username cannot be null')
       );
       await setup();
 
@@ -218,27 +227,6 @@ describe('Sign Up Page', () => {
 
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
       expect(signupButton).toBeEnabled();
-    });
-
-    it('018 - displays validation message for email', async () => {
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, (/* { request } */) => {
-          // await delay(100);
-          console.log('Mocked MSW response in #18');
-          return HttpResponse.json(
-            { validationErrors: { email: 'E-mail cannot be null' } },
-            { status: 400 }
-          );
-        })
-      );
-      await setup();
-
-      await user.click(signupButton as HTMLElement);
-      const emailValidationError = await screen.findByText(
-        'E-mail cannot be null'
-      );
-
-      expect(emailValidationError).toBeInTheDocument();
     });
   });
 });
