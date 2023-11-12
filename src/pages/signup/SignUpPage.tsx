@@ -105,6 +105,10 @@ function SignUpPage(/* {}: Props */) {
               };
             });
           }
+
+          setState((prevState) => {
+            return { ...prevState, apiProgress: false };
+          });
         }
         // console.log({ where: 'END OF CATCH_0', error: error as unknown });
       });
