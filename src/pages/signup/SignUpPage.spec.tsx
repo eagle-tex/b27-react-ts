@@ -205,7 +205,6 @@ describe('Sign Up Page', () => {
       server.use(
         http.post(`${BASE_URL}/api/v1/users`, async (/* { request } */) => {
           await delay(100);
-          console.log('Mocked MSW response in #17');
           return HttpResponse.json(
             { validationErrors: { username: 'Username cannot be null' } },
             { status: 400 }
@@ -219,6 +218,27 @@ describe('Sign Up Page', () => {
 
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
       expect(signupButton).toBeEnabled();
+    });
+
+    it('018 - displays validation message for email', async () => {
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, (/* { request } */) => {
+          // await delay(100);
+          console.log('Mocked MSW response in #18');
+          return HttpResponse.json(
+            { validationErrors: { email: 'E-mail cannot be null' } },
+            { status: 400 }
+          );
+        })
+      );
+      await setup();
+
+      await user.click(signupButton as HTMLElement);
+      const emailValidationError = await screen.findByText(
+        'E-mail cannot be null'
+      );
+
+      expect(emailValidationError).toBeInTheDocument();
     });
   });
 });
