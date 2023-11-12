@@ -14,6 +14,7 @@ import React, { useState } from 'react';
 
 import { Body } from '@/api/apiCalls.ts';
 import Axios from '@/api/axiosConfig.ts';
+import TextInput from '@/components/TextInput.tsx';
 
 // import { postUser } from '@/api/apiCalls.ts';
 
@@ -163,26 +164,33 @@ function SignUpPage(/* {}: Props */) {
                 Créer un compte
               </Typography>
 
-              {errors.username?.length >= 0 ? (
-                <TextField
-                  id="username"
-                  label="Identifiant"
-                  placeholder="Identifiant"
-                  error
-                  helperText={errors.username}
-                />
-              ) : (
-                <TextField
-                  id="username"
-                  label="Identifiant"
-                  placeholder="Identifiant"
-                  variant="outlined"
-                  name="username"
-                  type="text"
-                  fullWidth
-                  onChange={onChange}
-                />
-              )}
+              <TextInput
+                id="username"
+                label="Identifiant"
+                onChange={onChange}
+                help={errors?.username || ''}
+              />
+
+              {/* {errors.username?.length >= 0 ? ( */}
+              {/*   <TextField */}
+              {/*     id="username" */}
+              {/*     label="Identifiant" */}
+              {/*     placeholder="Identifiant" */}
+              {/*     error */}
+              {/*     helperText={errors.username} */}
+              {/*   /> */}
+              {/* ) : ( */}
+              {/*   <TextField */}
+              {/*     id="username" */}
+              {/*     label="Identifiant" */}
+              {/*     placeholder="Identifiant" */}
+              {/*     variant="outlined" */}
+              {/*     name="username" */}
+              {/*     type="text" */}
+              {/*     fullWidth */}
+              {/*     onChange={onChange} */}
+              {/*   /> */}
+              {/* )} */}
               <TextField
                 id="email"
                 label="Email"
