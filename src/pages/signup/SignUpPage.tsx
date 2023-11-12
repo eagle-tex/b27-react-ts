@@ -23,8 +23,11 @@ import TextInput from '@/components/TextInput.tsx';
 interface UsernameError {
   username: string;
 }
+interface EmailError {
+  email: string;
+}
 
-interface Errors extends UsernameError {}
+interface Errors extends UsernameError, EmailError {}
 
 interface ValidationError {
   validationErrors: Errors;
@@ -171,26 +174,13 @@ function SignUpPage(/* {}: Props */) {
                 help={errors?.username || ''}
               />
 
-              {/* {errors.username?.length >= 0 ? ( */}
-              {/*   <TextField */}
-              {/*     id="username" */}
-              {/*     label="Identifiant" */}
-              {/*     placeholder="Identifiant" */}
-              {/*     error */}
-              {/*     helperText={errors.username} */}
-              {/*   /> */}
-              {/* ) : ( */}
-              {/*   <TextField */}
-              {/*     id="username" */}
-              {/*     label="Identifiant" */}
-              {/*     placeholder="Identifiant" */}
-              {/*     variant="outlined" */}
-              {/*     name="username" */}
-              {/*     type="text" */}
-              {/*     fullWidth */}
-              {/*     onChange={onChange} */}
-              {/*   /> */}
-              {/* )} */}
+              <TextInput
+                id="email"
+                label="Email"
+                onChange={onChange}
+                help={errors?.email || ''}
+              />
+
               <TextField
                 id="email"
                 label="Email"
