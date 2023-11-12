@@ -179,5 +179,27 @@ describe('Sign Up Page', () => {
         expect(form).not.toBeInTheDocument();
       });
     });
+
+    it('016 - displays validation message for username', async () => {
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, async (/* { request } */) => {
+          // requestBody = await request.json();
+          await delay(100);
+          console.log('Mocked MSW response in #16');
+          return HttpResponse.json(
+            { validationErrors: { username: 'Username cannot be null' } },
+            { status: 400 }
+          );
+        })
+      );
+      await setup();
+
+      await user.click(signupButton as HTMLElement);
+      const validationError = await screen.findByText(
+        'Username cannot be null'
+      );
+
+      expect(validationError).toBeInTheDocument();
+    });
   });
 });
