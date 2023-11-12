@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import axios, { AxiosError } from 'axios';
 import React, { useState } from 'react';
 
 import { Body } from '@/api/apiCalls.ts';
@@ -18,6 +19,23 @@ import Axios from '@/api/axiosConfig.ts';
 
 // type Props = {}
 
+interface UsernameError {
+  username: string;
+}
+
+interface Errors extends UsernameError {}
+
+interface ValidationError {
+  validationErrors: Errors;
+}
+
+// const abc: ValidationError = {
+//   validationErrors: {
+//     username: 'username error',
+//   },
+// };
+// console.log(abc);
+
 type SignupState = {
   username: string;
   email: string;
@@ -25,6 +43,8 @@ type SignupState = {
   passwordRepeat: string;
   apiProgress: boolean;
   signupSuccess: boolean;
+  // errors: Record<string, string[]>;
+  errors: Errors;
 };
 
 function SignUpPage(/* {}: Props */) {
@@ -35,18 +55,11 @@ function SignUpPage(/* {}: Props */) {
     passwordRepeat: '',
     apiProgress: false,
     signupSuccess: false,
+    errors: {} as Errors,
   });
 
   const postUser = (body: Body) => {
-    Axios.post('/api/v1/users', body)
-      .then((response) => {
-        setState((prevState) => {
-          return { ...prevState, signupSuccess: true };
-        });
-
-        return response.data as Body;
-      })
-      .catch((err) => console.log(err));
+    return Axios.post('/api/v1/users', body);
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +69,12 @@ function SignUpPage(/* {}: Props */) {
     });
   };
 
+  function isAxiosError<ResponseType>(
+    error: unknown
+  ): error is AxiosError<ResponseType> {
+    return axios.isAxiosError(error);
+  }
+
   const submit = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const { email, password, username } = state;
@@ -63,12 +82,32 @@ function SignUpPage(/* {}: Props */) {
     setState((prevState) => {
       return { ...prevState, apiProgress: true };
     });
-    try {
-      postUser(body);
-    } catch (err) {
-      console.log({ where: 'CATCH BLOCK', err });
-      throw err;
-    }
+    postUser(body)
+      .then((response) => {
+        setState((prevState) => {
+          return { ...prevState, signupSuccess: true };
+        });
+
+        return response.data as Body;
+      })
+      .catch((error) => {
+        if (isAxiosError<ValidationError>(error)) {
+          // console.log('CATCHING - 1st IF');
+          // if (error instanceof AxiosError<ValidationError,Record<string,unknown>>) {
+          if (error.response?.status === 400) {
+            // console.log('CATCHING - 2nd IF');
+            // console.log({ errorType: typeof error });
+            // console.log({ where: 'CATCH_0', errors: error.response.data });
+            setState((prevState) => {
+              return {
+                ...prevState,
+                errors: error.response?.data?.validationErrors as Errors,
+              };
+            });
+          }
+        }
+        // console.log({ where: 'END OF CATCH_0', error: error as unknown });
+      });
   };
 
   // useEffect(() => {
@@ -76,16 +115,14 @@ function SignUpPage(/* {}: Props */) {
   // }, [state]);
 
   // function isDisabled() {
-  const { password, passwordRepeat } = state;
-  // const { apiProgress, signupSuccess } = state;
+  const { apiProgress, errors, password, passwordRepeat, signupSuccess } =
+    state;
   let disabled = true;
   if (password && passwordRepeat) {
     disabled = password !== passwordRepeat; // || apiProgress;
   }
   // return disabled;
   // }
-
-  const { apiProgress, signupSuccess } = state;
 
   return (
     <Box
@@ -98,18 +135,18 @@ function SignUpPage(/* {}: Props */) {
       px={4}
       my={6}
     >
-      <Box
-        p={4}
-        minWidth="400px"
-        maxWidth="500px"
-        sx={{
-          border: 1,
-          borderColor: '#aaaccc',
-          borderWidth: 1,
-          borderRadius: 2,
-        }}
-      >
-        {!signupSuccess && (
+      {!signupSuccess && (
+        <Box
+          p={4}
+          minWidth="400px"
+          maxWidth="500px"
+          sx={{
+            border: 1,
+            borderColor: '#aaaccc',
+            borderWidth: 1,
+            borderRadius: 2,
+          }}
+        >
           <form data-testid="form-signup">
             <Stack sx={{ width: '100%' }} spacing={2}>
               <Typography
@@ -122,16 +159,26 @@ function SignUpPage(/* {}: Props */) {
                 Créer un compte
               </Typography>
 
-              <TextField
-                id="username"
-                label="Identifiant"
-                placeholder="Identifiant"
-                variant="outlined"
-                name="username"
-                type="text"
-                fullWidth
-                onChange={onChange}
-              />
+              {errors.username?.length >= 0 ? (
+                <TextField
+                  id="username"
+                  label="Identifiant"
+                  placeholder="Identifiant"
+                  error
+                  helperText={errors.username}
+                />
+              ) : (
+                <TextField
+                  id="username"
+                  label="Identifiant"
+                  placeholder="Identifiant"
+                  variant="outlined"
+                  name="username"
+                  type="text"
+                  fullWidth
+                  onChange={onChange}
+                />
+              )}
               <TextField
                 id="email"
                 label="Email"
@@ -182,8 +229,8 @@ function SignUpPage(/* {}: Props */) {
               </Button>
             </Stack>
           </form>
-        )}
-      </Box>
+        </Box>
+      )}
 
       {signupSuccess && (
         <Alert severity="info">
