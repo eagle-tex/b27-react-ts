@@ -185,7 +185,6 @@ describe('Sign Up Page', () => {
         http.post(`${BASE_URL}/api/v1/users`, async (/* { request } */) => {
           // requestBody = await request.json();
           await delay(100);
-          console.log('Mocked MSW response in #16');
           return HttpResponse.json(
             { validationErrors: { username: 'Username cannot be null' } },
             { status: 400 }
@@ -195,11 +194,31 @@ describe('Sign Up Page', () => {
       await setup();
 
       await user.click(signupButton as HTMLElement);
-      const validationError = await screen.findByText(
+      const usernameValidationError = await screen.findByText(
         'Username cannot be null'
       );
 
-      expect(validationError).toBeInTheDocument();
+      expect(usernameValidationError).toBeInTheDocument();
+    });
+
+    it('017 - hides spinner and enables button after receiving response', async () => {
+      server.use(
+        http.post(`${BASE_URL}/api/v1/users`, async (/* { request } */) => {
+          await delay(100);
+          console.log('Mocked MSW response in #17');
+          return HttpResponse.json(
+            { validationErrors: { username: 'Username cannot be null' } },
+            { status: 400 }
+          );
+        })
+      );
+      await setup();
+
+      await user.click(signupButton as HTMLElement);
+      await screen.findByText('Username cannot be null');
+
+      expect(screen.queryByRole('status')).not.toBeInTheDocument();
+      expect(signupButton).toBeEnabled();
     });
   });
 });
