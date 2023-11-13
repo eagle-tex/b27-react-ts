@@ -6,7 +6,8 @@ type Props = {
   label: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   help: string;
-  type: string;
+  placeholder: string;
+  type: 'email' | 'password' | 'text';
 };
 
 function setError(help: string) {
@@ -17,13 +18,13 @@ function setHelperText(help: string) {
   return help.length > 0 ? help : null;
 }
 
-function TextInput({ help, id, label, onChange, type }: Props) {
+function TextInput({ help, id, label, onChange, placeholder, type }: Props) {
   return (
     <TextField
       id={id}
       label={label}
       onChange={onChange}
-      placeholder={label}
+      placeholder={placeholder}
       variant="outlined"
       name={id}
       type={type}
@@ -39,7 +40,8 @@ TextInput.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   help: PropTypes.string,
-  type: PropTypes.string,
+  placeholder: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['email', 'password', 'text']),
 };
 
 TextInput.defaultProps = {
