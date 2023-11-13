@@ -27,7 +27,11 @@ interface EmailError {
   email: string;
 }
 
-interface Errors extends UsernameError, EmailError {}
+interface PasswordError {
+  password: string;
+}
+
+interface Errors extends UsernameError, EmailError, PasswordError {}
 
 interface ValidationError {
   validationErrors: Errors;
@@ -177,6 +181,7 @@ function SignUpPage(/* {}: Props */) {
               <TextInput
                 id="email"
                 label="Email"
+                type="email"
                 onChange={onChange}
                 help={errors?.email || ''}
               />
