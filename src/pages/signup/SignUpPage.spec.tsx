@@ -96,6 +96,8 @@ describe('Sign Up Page', () => {
 
     afterAll(() => server.close());
 
+    let passwordInput: HTMLElement | null;
+    let passwordRepeatInput: HTMLElement | null;
     let signupButton: HTMLElement | null;
     const user = userEvent.setup({ skipHover: true });
 
@@ -103,8 +105,8 @@ describe('Sign Up Page', () => {
       render(<SignUpPage />);
       const usernameInput = screen.getByLabelText('Username');
       const emailInput = screen.getByLabelText('Email');
-      const passwordInput = screen.getByLabelText('Password');
-      const passwordRepeatInput = screen.getByLabelText('Confirm password');
+      passwordInput = screen.getByLabelText('Password');
+      passwordRepeatInput = screen.getByLabelText('Confirm password');
 
       await user.type(usernameInput, 'user1');
       await user.type(emailInput, 'user1@mail.com');
@@ -221,6 +223,16 @@ describe('Sign Up Page', () => {
 
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
       expect(signupButton).toBeEnabled();
+    });
+
+    it('020 - displays mismatch message for password repeat input', async () => {
+      await setup();
+      await user.type(passwordInput as HTMLElement, 'P4ssword');
+      await user.type(passwordRepeatInput as HTMLElement, 'AnotherP4ssword');
+
+      const validationError = screen.queryByText('Password mismatch');
+
+      expect(validationError).toBeInTheDocument();
     });
   });
 });
