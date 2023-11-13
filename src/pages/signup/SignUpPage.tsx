@@ -6,7 +6,6 @@ import {
   Button,
   CircularProgress,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import axios, { AxiosError } from 'axios';
@@ -127,8 +126,9 @@ function SignUpPage(/* {}: Props */) {
   if (password && passwordRepeat) {
     disabled = password !== passwordRepeat; // || apiProgress;
   }
-  // return disabled;
-  // }
+
+  const passwordMismatch =
+    password !== passwordRepeat ? 'Password mismatch' : '';
 
   return (
     <Box
@@ -168,6 +168,7 @@ function SignUpPage(/* {}: Props */) {
               <TextInput
                 id="username"
                 label="Username"
+                placeholder="Username"
                 onChange={onChange}
                 help={errors?.username || ''}
               />
@@ -175,6 +176,7 @@ function SignUpPage(/* {}: Props */) {
               <TextInput
                 id="email"
                 label="Email"
+                placeholder="name@email.com"
                 type="email"
                 onChange={onChange}
                 help={errors?.email || ''}
@@ -183,21 +185,31 @@ function SignUpPage(/* {}: Props */) {
               <TextInput
                 id="password"
                 label="Password"
+                placeholder="••••••••"
                 type="password"
                 onChange={onChange}
                 help={errors?.password || ''}
               />
 
-              <TextField
+              <TextInput
                 id="passwordRepeat"
                 label="Confirm password"
                 placeholder="••••••••"
-                variant="outlined"
-                name="passwordRepeat"
                 type="password"
-                fullWidth
                 onChange={onChange}
+                help={passwordMismatch}
               />
+
+              {/* <TextField */}
+              {/*   id="passwordRepeat" */}
+              {/*   label="Confirm password" */}
+              {/*   placeholder="••••••••" */}
+              {/*   variant="outlined" */}
+              {/*   name="passwordRepeat" */}
+              {/*   type="password" */}
+              {/*   fullWidth */}
+              {/*   onChange={onChange} */}
+              {/* /> */}
 
               <Button
                 color="primary"
