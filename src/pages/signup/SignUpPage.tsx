@@ -23,6 +23,7 @@ import TextInput from '@/components/TextInput.tsx';
 interface UsernameError {
   username: string;
 }
+
 interface EmailError {
   email: string;
 }
@@ -36,13 +37,6 @@ interface Errors extends UsernameError, EmailError, PasswordError {}
 interface ValidationError {
   validationErrors: Errors;
 }
-
-// const abc: ValidationError = {
-//   validationErrors: {
-//     username: 'username error',
-//   },
-// };
-// console.log(abc);
 
 type SignupState = {
   username: string;
@@ -168,12 +162,12 @@ function SignUpPage(/* {}: Props */) {
                 textAlign="center"
                 color="green"
               >
-                Créer un compte
+                Sign up
               </Typography>
 
               <TextInput
                 id="username"
-                label="Identifiant"
+                label="Username"
                 onChange={onChange}
                 help={errors?.username || ''}
               />
@@ -186,29 +180,17 @@ function SignUpPage(/* {}: Props */) {
                 help={errors?.email || ''}
               />
 
-              <TextField
-                id="email"
-                label="Email"
-                placeholder="votre@email.com"
-                variant="outlined"
-                name="email"
-                type="email"
-                fullWidth
-                onChange={onChange}
-              />
-              <TextField
+              <TextInput
                 id="password"
-                label="Mot de passe"
-                placeholder="••••••••"
-                variant="outlined"
-                name="password"
+                label="Password"
                 type="password"
-                fullWidth
                 onChange={onChange}
+                help={errors?.password || ''}
               />
+
               <TextField
                 id="passwordRepeat"
-                label="Confirmer mot de passe"
+                label="Confirm password"
                 placeholder="••••••••"
                 variant="outlined"
                 name="passwordRepeat"
@@ -221,8 +203,6 @@ function SignUpPage(/* {}: Props */) {
                 color="primary"
                 size="large"
                 variant="contained"
-                // fullWidth
-                // disabled={isDisabled() || apiProgress}
                 disabled={disabled || apiProgress}
                 type="submit"
                 onClick={submit}
@@ -232,7 +212,7 @@ function SignUpPage(/* {}: Props */) {
                     <CircularProgress size={16} />{' '}
                   </span>
                 )}
-                Créer un compte
+                Sign up
               </Button>
             </Stack>
           </form>
@@ -241,7 +221,7 @@ function SignUpPage(/* {}: Props */) {
 
       {signupSuccess && (
         <Alert severity="info">
-          Veuillez vérifier votre e-mail pour activer votre compte
+          Please check your e-mail to activate your account
         </Alert>
       )}
     </Box>

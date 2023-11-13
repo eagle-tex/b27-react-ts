@@ -11,16 +11,16 @@ import SignUpPage from './SignUpPage.tsx';
 
 describe('Sign Up Page', () => {
   describe('Layout', () => {
-    it('001 - Renders "Créer un compte"', () => {
+    it('001 - Renders "Sign up"', () => {
       render(<SignUpPage />);
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-        'Créer un compte'
+        'Sign up'
       );
     });
 
     it('002 - has username input', () => {
       render(<SignUpPage />);
-      const input = screen.getByLabelText('Identifiant');
+      const input = screen.getByLabelText('Username');
       expect(input).toBeInTheDocument();
     });
 
@@ -32,36 +32,32 @@ describe('Sign Up Page', () => {
 
     it('004 - has password input', () => {
       render(<SignUpPage />);
-      const passwordInput = screen.getByLabelText('Mot de passe');
+      const passwordInput = screen.getByLabelText('Password');
       expect(passwordInput).toBeInTheDocument();
     });
 
     it('005 - password input has password type', () => {
       render(<SignUpPage />);
-      const passwordInput = screen.getByLabelText('Mot de passe');
+      const passwordInput = screen.getByLabelText('Password');
       expect(passwordInput).toHaveAttribute('type', 'password');
     });
 
     it('006 - has password repeat input', () => {
       render(<SignUpPage />);
-      const passwordRepeatInput = screen.getByLabelText(
-        'Confirmer mot de passe'
-      );
+      const passwordRepeatInput = screen.getByLabelText('Confirm password');
       expect(passwordRepeatInput).toBeInTheDocument();
     });
 
     it('007 - password repeat input has password type', () => {
       render(<SignUpPage />);
-      const passwordRepeatInput = screen.getByLabelText(
-        'Confirmer mot de passe'
-      );
+      const passwordRepeatInput = screen.getByLabelText('Confirm password');
       expect(passwordRepeatInput).toHaveAttribute('type', 'password');
     });
 
-    it('008 - has "Créer un compte" button', () => {
+    it('008 - has "Sign up" button', () => {
       render(<SignUpPage />);
       const signupButton = screen.queryByRole('button', {
-        name: 'Créer un compte',
+        name: 'Sign up',
       });
       expect(signupButton).toBeInTheDocument();
     });
@@ -69,7 +65,7 @@ describe('Sign Up Page', () => {
     it('009 - disables the button initially', () => {
       render(<SignUpPage />);
       const signupButton = screen.queryByRole('button', {
-        name: 'Créer un compte',
+        name: 'Sign up',
       });
       expect(signupButton).toBeDisabled();
     });
@@ -105,12 +101,10 @@ describe('Sign Up Page', () => {
 
     const setup = async () => {
       render(<SignUpPage />);
-      const usernameInput = screen.getByLabelText('Identifiant');
+      const usernameInput = screen.getByLabelText('Username');
       const emailInput = screen.getByLabelText('Email');
-      const passwordInput = screen.getByLabelText('Mot de passe');
-      const passwordRepeatInput = screen.getByLabelText(
-        'Confirmer mot de passe'
-      );
+      const passwordInput = screen.getByLabelText('Password');
+      const passwordRepeatInput = screen.getByLabelText('Confirm password');
 
       await user.type(usernameInput, 'user1');
       await user.type(emailInput, 'user1@mail.com');
@@ -118,7 +112,7 @@ describe('Sign Up Page', () => {
       await user.type(passwordRepeatInput, 'P4ssword');
 
       signupButton = screen.queryByRole('button', {
-        name: 'Créer un compte',
+        name: 'Sign up',
       });
     };
 
@@ -158,8 +152,7 @@ describe('Sign Up Page', () => {
 
     it('014 - displays account creation message after successful signup request', async () => {
       await setup();
-      const message =
-        'Veuillez vérifier votre e-mail pour activer votre compte';
+      const message = 'Please check your e-mail to activate your account';
       expect(screen.queryByText(message)).not.toBeInTheDocument();
 
       await user.click(signupButton as HTMLElement);
@@ -185,7 +178,7 @@ describe('Sign Up Page', () => {
         `${BASE_URL}/api/v1/users`,
         async (/* { request } */) => {
           // requestBody = await request.json();
-          await delay(100);
+          await delay(10);
           return HttpResponse.json(
             { validationErrors: { [field]: message } },
             { status: 400 }
@@ -203,6 +196,7 @@ describe('Sign Up Page', () => {
       testNumber | field         | message
       ${'016'}   | ${'username'} | ${'Username cannot be null'}
       ${'018'}   | ${'email'}    | ${'E-mail cannot be null'}
+      ${'019'}   | ${'password'} | ${'Password cannot be null'}
     `(
       '$testNumber - displays $message for $field',
       async ({ field, message }: ITestFields) => {
