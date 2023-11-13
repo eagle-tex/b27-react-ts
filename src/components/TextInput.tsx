@@ -6,6 +6,7 @@ type Props = {
   label: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   help: string;
+  type: string;
 };
 
 function setError(help: string) {
@@ -16,7 +17,7 @@ function setHelperText(help: string) {
   return help.length > 0 ? help : null;
 }
 
-function TextInput({ help, id, label, onChange }: Props) {
+function TextInput({ help, id, label, onChange, type }: Props) {
   return (
     <TextField
       id={id}
@@ -25,7 +26,7 @@ function TextInput({ help, id, label, onChange }: Props) {
       placeholder={label}
       variant="outlined"
       name={id}
-      type="text"
+      type={type}
       fullWidth
       error={setError(help)}
       helperText={setHelperText(help)}
@@ -38,10 +39,12 @@ TextInput.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   help: PropTypes.string,
+  type: PropTypes.string,
 };
 
 TextInput.defaultProps = {
   help: '',
+  type: 'text',
 };
 
 export default TextInput;
