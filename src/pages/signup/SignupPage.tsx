@@ -46,7 +46,7 @@ type SignupState = {
   errors: Errors;
 };
 
-function SignUpPage(/* {}: Props */) {
+function SignupPage(/* {}: Props */) {
   const [state, setState] = useState<SignupState>({
     username: '',
     email: '',
@@ -230,4 +230,4 @@ function SignUpPage(/* {}: Props */) {
   );
 }
 
-export default SignUpPage;
+export default SignupPage;

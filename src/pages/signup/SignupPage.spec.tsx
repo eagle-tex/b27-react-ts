@@ -7,55 +7,55 @@ import { BASE_URL } from '@/api/axiosConfig.ts';
 // import { mockedUser } from '@/mocks/handlers.ts';
 import { server } from '@/mocks/server.ts';
 
-import SignUpPage from './SignUpPage.tsx';
+import SignupPage from './SignupPage.tsx';
 
 describe('Sign Up Page', () => {
   describe('Layout', () => {
     it('001 - Renders "Sign up"', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
         'Sign up'
       );
     });
 
     it('002 - has username input', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       const input = screen.getByLabelText('Username');
       expect(input).toBeInTheDocument();
     });
 
     it('003 - has email input', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       const emailInput = screen.getByLabelText('Email');
       expect(emailInput).toBeInTheDocument();
     });
 
     it('004 - has password input', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       const passwordInput = screen.getByLabelText('Password');
       expect(passwordInput).toBeInTheDocument();
     });
 
     it('005 - password input has password type', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       const passwordInput = screen.getByLabelText('Password');
       expect(passwordInput).toHaveAttribute('type', 'password');
     });
 
     it('006 - has password repeat input', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       const passwordRepeatInput = screen.getByLabelText('Confirm password');
       expect(passwordRepeatInput).toBeInTheDocument();
     });
 
     it('007 - password repeat input has password type', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       const passwordRepeatInput = screen.getByLabelText('Confirm password');
       expect(passwordRepeatInput).toHaveAttribute('type', 'password');
     });
 
     it('008 - has "Sign up" button', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       const signupButton = screen.queryByRole('button', {
         name: 'Sign up',
       });
@@ -63,7 +63,7 @@ describe('Sign Up Page', () => {
     });
 
     it('009 - disables the button initially', () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       const signupButton = screen.queryByRole('button', {
         name: 'Sign up',
       });
@@ -104,7 +104,7 @@ describe('Sign Up Page', () => {
     const user = userEvent.setup({ skipHover: true });
 
     const setup = async () => {
-      render(<SignUpPage />);
+      render(<SignupPage />);
       usernameInput = screen.getByLabelText('Username');
       emailInput = screen.getByLabelText('Email');
       passwordInput = screen.getByLabelText('Password');
