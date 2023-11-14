@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// import CircularProgress from '@mui/material/CircularProgress';
 import {
   Alert,
   Box,
@@ -44,7 +43,6 @@ type SignupState = {
   passwordRepeat: string;
   apiProgress: boolean;
   signupSuccess: boolean;
-  // errors: Record<string, string[]>;
   errors: Errors;
 };
 
@@ -65,8 +63,17 @@ function SignUpPage(/* {}: Props */) {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
+
+    // WARN: if you need to update an object in state, it is
+    //   VERY IMPORTANT to make a copy of that object first
+    //   This is not necessary in our case because we have no nested object
+    // NOTE: Use the version below if the errors state has a nested object inside
+    //   const errorsCopy = JSON.parse(JSON.stringify(state.errors));
+    const errorsCopy = { ...state };
+    delete errorsCopy[id as keyof SignupState];
+
     setState((prevState) => {
-      return { ...prevState, [id]: value };
+      return { ...prevState, [id]: value, errors: errorsCopy };
     });
   };
 
@@ -93,12 +100,7 @@ function SignUpPage(/* {}: Props */) {
       })
       .catch((error) => {
         if (isAxiosError<ValidationError>(error)) {
-          // console.log('CATCHING - 1st IF');
-          // if (error instanceof AxiosError<ValidationError,Record<string,unknown>>) {
           if (error.response?.status === 400) {
-            // console.log('CATCHING - 2nd IF');
-            // console.log({ errorType: typeof error });
-            // console.log({ where: 'CATCH_0', errors: error.response.data });
             setState((prevState) => {
               return {
                 ...prevState,
@@ -111,7 +113,6 @@ function SignUpPage(/* {}: Props */) {
             return { ...prevState, apiProgress: false };
           });
         }
-        // console.log({ where: 'END OF CATCH_0', error: error as unknown });
       });
   };
 
@@ -199,17 +200,6 @@ function SignUpPage(/* {}: Props */) {
                 onChange={onChange}
                 help={passwordMismatch}
               />
-
-              {/* <TextField */}
-              {/*   id="passwordRepeat" */}
-              {/*   label="Confirm password" */}
-              {/*   placeholder="••••••••" */}
-              {/*   variant="outlined" */}
-              {/*   name="passwordRepeat" */}
-              {/*   type="password" */}
-              {/*   fullWidth */}
-              {/*   onChange={onChange} */}
-              {/* /> */}
 
               <Button
                 color="primary"
