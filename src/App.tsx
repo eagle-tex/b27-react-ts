@@ -1,9 +1,9 @@
 // import './App.css';
 
-import SignUpPage from '@/pages/signup/SignUpPage.tsx';
+import SignupPage from '@/pages/signup/SignupPage.tsx';
 
 function App() {
-  return <SignUpPage />;
+  return <SignupPage />;
 }
 
 export default App;
