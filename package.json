@@ -18,6 +18,7 @@
     "stylelint:check": "stylelint \"**/*.css\"",
     "stylelint:fix": "stylelint --fix \"**/*.css\"",
     "test": "vitest",
+    "test:vitest": "DEBUG=test DEBUG_DEPTH=6 DEBUG_COLORS=true cross-env NODE_ENV=test vitest --watch --reporter verbose",
     "test:ui": "vitest --ui"
   },
   "dependencies": {
@@ -30,16 +31,20 @@
     "@mui/material": "^5.14.16",
     "@testing-library/user-event": "^14.5.1",
     "axios": "^1.6.0",
+    "debug": "^4.3.4",
     "framer-motion": "^10.16.4",
+    "i18next": "^23.7.6",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-i18next": "^13.4.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^18.1.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
+    "@types/debug": "^4.1.12",
     "@types/node": "^20.8.10",
     "@types/react": "^18.2.35",
     "@types/react-dom": "^18.2.14",
@@ -48,6 +53,7 @@
     "@vitejs/plugin-react": "^4.1.1",
     "@vitest/ui": "^0.34.6",
     "commitizen": "^4.3.0",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.53.0",
     "eslint-config-airbnb": "^19.0.4",
