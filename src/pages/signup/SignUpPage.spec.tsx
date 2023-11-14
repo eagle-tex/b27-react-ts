@@ -96,6 +96,8 @@ describe('Sign Up Page', () => {
 
     afterAll(() => server.close());
 
+    let usernameInput: HTMLElement | null;
+    let emailInput: HTMLElement | null;
     let passwordInput: HTMLElement | null;
     let passwordRepeatInput: HTMLElement | null;
     let signupButton: HTMLElement | null;
@@ -103,8 +105,8 @@ describe('Sign Up Page', () => {
 
     const setup = async () => {
       render(<SignUpPage />);
-      const usernameInput = screen.getByLabelText('Username');
-      const emailInput = screen.getByLabelText('Email');
+      usernameInput = screen.getByLabelText('Username');
+      emailInput = screen.getByLabelText('Email');
       passwordInput = screen.getByLabelText('Password');
       passwordRepeatInput = screen.getByLabelText('Confirm password');
 
@@ -192,6 +194,7 @@ describe('Sign Up Page', () => {
     interface ITestFields {
       field: string;
       message: string;
+      label: string;
     }
 
     it.each`
@@ -233,6 +236,21 @@ describe('Sign Up Page', () => {
       const validationError = screen.queryByText('Password mismatch');
 
       expect(validationError).toBeInTheDocument();
+    });
+
+    it('021 - clears validation error after username field is updated', async () => {
+      server.use(
+        generateValidationError('username', 'Username cannot be null')
+      );
+      await setup();
+
+      await user.click(signupButton as HTMLElement);
+      const validationError = await screen.findByText(
+        'Username cannot be null'
+      );
+      await user.type(usernameInput as HTMLElement, 'user1-updated');
+
+      expect(validationError).not.toBeInTheDocument();
     });
   });
 });
