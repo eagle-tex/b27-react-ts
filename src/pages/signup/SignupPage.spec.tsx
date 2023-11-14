@@ -199,11 +199,11 @@ describe('Sign Up Page', () => {
 
     it.each`
       testNumber | field         | message
-      ${'016'}   | ${'username'} | ${'Username cannot be null'}
-      ${'018'}   | ${'email'}    | ${'E-mail cannot be null'}
-      ${'019'}   | ${'password'} | ${'Password cannot be null'}
+      ${16}      | ${'username'} | ${'Username cannot be null'}
+      ${18}      | ${'email'}    | ${'E-mail cannot be null'}
+      ${19}      | ${'password'} | ${'Password cannot be null'}
     `(
-      '$testNumber - displays $message for $field',
+      '0$testNumber - displays $message for $field',
       async ({ field, message }: ITestFields) => {
         server.use(generateValidationError(field, message));
         await setup();
@@ -240,11 +240,11 @@ describe('Sign Up Page', () => {
 
     it.each`
       testNumber | field         | message                      | label
-      ${'021'}   | ${'username'} | ${'Username cannot be null'} | ${'Username'}
-      ${'022'}   | ${'email'}    | ${'E-mail cannot be null'}   | ${'Email'}
-      ${'023'}   | ${'password'} | ${'Password cannot be null'} | ${'Password'}
+      ${21}      | ${'username'} | ${'Username cannot be null'} | ${'Username'}
+      ${22}      | ${'email'}    | ${'E-mail cannot be null'}   | ${'Email'}
+      ${23}      | ${'password'} | ${'Password cannot be null'} | ${'Password'}
     `(
-      '$testNumber - clears validation error after $field field is updated',
+      '0$testNumber - clears validation error after $field field is updated',
       async ({ field, label, message }: ITestFields) => {
         server.use(generateValidationError(field, message));
         await setup();
