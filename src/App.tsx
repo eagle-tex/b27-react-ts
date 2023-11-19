@@ -1,5 +1,3 @@
-// import './App.css';
-
 import SignupPage from '@/pages/signup/SignupPage.tsx';
 
 function App() {
