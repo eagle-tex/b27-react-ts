@@ -136,8 +136,8 @@ function SignupPage(/* {}: Props */) {
   const passwordMismatch =
     password !== passwordRepeat ? t('signup.passwordMismatch') : '';
 
-  const onClickEnglish = async () => {
-    await i18n.changeLanguage('en');
+  const onLanguageChange = async (language: 'en' | 'fr') => {
+    await i18n.changeLanguage(language);
   };
 
   return (
@@ -232,8 +232,19 @@ function SignupPage(/* {}: Props */) {
 
       <Box>
         {signupSuccess && <Alert severity="info">{t('signup.success')}</Alert>}
-        <button type="button" title="English" onClick={onClickEnglish}>
+        <button
+          type="button"
+          title="English"
+          onClick={() => onLanguageChange('en')}
+        >
           EN
+        </button>
+        <button
+          type="button"
+          title="French"
+          onClick={() => onLanguageChange('fr')}
+        >
+          FR
         </button>
       </Box>
     </Box>
