@@ -8,11 +8,14 @@ import {
   Typography,
 } from '@mui/material';
 import axios, { AxiosError } from 'axios';
+// import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Body } from '@/api/apiCalls.ts';
 import Axios from '@/api/axiosConfig.ts';
 import TextInput from '@/components/TextInput.tsx';
+import i18n from '@/i18n/config.ts';
 
 // import { postUser } from '@/api/apiCalls.ts';
 
@@ -47,6 +50,8 @@ type SignupState = {
 };
 
 function SignupPage(/* {}: Props */) {
+  const { t } = useTranslation();
+
   const [state, setState] = useState<SignupState>({
     username: '',
     email: '',
@@ -69,8 +74,8 @@ function SignupPage(/* {}: Props */) {
     //   This is not necessary in our case because we have no nested object
     // NOTE: Use the version below if the errors state has a nested object inside
     //   const errorsCopy = JSON.parse(JSON.stringify(state.errors));
-    const errorsCopy = { ...state };
-    delete errorsCopy[id as keyof SignupState];
+    const errorsCopy = { ...state.errors };
+    delete errorsCopy[id as keyof typeof errorsCopy];
 
     setState((prevState) => {
       return { ...prevState, [id]: value, errors: errorsCopy };
@@ -129,7 +134,11 @@ function SignupPage(/* {}: Props */) {
   }
 
   const passwordMismatch =
-    password !== passwordRepeat ? 'Password mismatch' : '';
+    password !== passwordRepeat ? t('signup.passwordMismatch') : '';
+
+  const onClickEnglish = async () => {
+    await i18n.changeLanguage('en');
+  };
 
   return (
     <Box
@@ -163,20 +172,20 @@ function SignupPage(/* {}: Props */) {
                 textAlign="center"
                 color="green"
               >
-                Sign up
+                {t('signup.signup')}
               </Typography>
 
               <TextInput
                 id="username"
-                label="Username"
-                placeholder="Username"
+                label={t('signup.username')}
+                placeholder={t('signup.username')}
                 onChange={onChange}
                 help={errors?.username || ''}
               />
 
               <TextInput
                 id="email"
-                label="Email"
+                label={t('signup.email')}
                 placeholder="name@email.com"
                 type="email"
                 onChange={onChange}
@@ -185,7 +194,7 @@ function SignupPage(/* {}: Props */) {
 
               <TextInput
                 id="password"
-                label="Password"
+                label={t('signup.password')}
                 placeholder="••••••••"
                 type="password"
                 onChange={onChange}
@@ -194,7 +203,7 @@ function SignupPage(/* {}: Props */) {
 
               <TextInput
                 id="passwordRepeat"
-                label="Confirm password"
+                label={t('signup.passwordRepeat')}
                 placeholder="••••••••"
                 type="password"
                 onChange={onChange}
@@ -214,18 +223,19 @@ function SignupPage(/* {}: Props */) {
                     <CircularProgress size={16} />{' '}
                   </span>
                 )}
-                Sign up
+                {t('signup.signup')}
               </Button>
             </Stack>
           </form>
         </Box>
       )}
 
-      {signupSuccess && (
-        <Alert severity="info">
-          Please check your e-mail to activate your account
-        </Alert>
-      )}
+      <Box>
+        {signupSuccess && <Alert severity="info">{t('signup.success')}</Alert>}
+        <button type="button" title="English" onClick={onClickEnglish}>
+          EN
+        </button>
+      </Box>
     </Box>
   );
 }
