@@ -1,7 +1,5 @@
-import fallback from '@/locales/en/fallback.json';
-import ns1 from '@/locales/en/ns1.json';
-import ns2 from '@/locales/en/ns2.json';
+import translation from '@/locale/fr/translation.json';
 
-const resources = { fallback, ns1, ns2 } as const;
+const resources = { translation } as const;
 
 export default resources;
