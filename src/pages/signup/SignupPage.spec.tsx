@@ -273,6 +273,17 @@ describe('Sign Up Page', () => {
   });
 
   describe('Internationalization', () => {
+    const enTranslations = en.signup;
+    const {
+      email: emailEn,
+      password: passwordEn,
+      // passwordMismatch: passwordMismatchEn,
+      passwordRepeat: passwordRepeatEn,
+      signup: signupEn,
+      // success: successEn,
+      username: usernameEn,
+    } = enTranslations;
+
     it('024 - initially displays all text in French', () => {
       render(<SignupPage />);
 
@@ -296,17 +307,25 @@ describe('Sign Up Page', () => {
       await user.click(englishToggle);
 
       expect(
-        screen.getByRole('heading', { name: en.signup.signup })
+        screen.getByRole('heading', { name: signupEn })
       ).toBeInTheDocument();
       expect(
-        screen.getByRole('button', { name: en.signup.signup })
+        screen.getByRole('button', { name: signupEn })
       ).toBeInTheDocument();
-      expect(screen.getByLabelText(en.signup.username)).toBeInTheDocument();
-      expect(screen.getByLabelText(en.signup.email)).toBeInTheDocument();
-      expect(screen.getByLabelText(en.signup.password)).toBeInTheDocument();
-      expect(
-        screen.getByLabelText(en.signup.passwordRepeat)
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText(usernameEn)).toBeInTheDocument();
+      expect(screen.getByLabelText(emailEn)).toBeInTheDocument();
+      expect(screen.getByLabelText(passwordEn)).toBeInTheDocument();
+      expect(screen.getByLabelText(passwordRepeatEn)).toBeInTheDocument();
+    });
+
+    it('026 - displays all text in French after changing back from English', async () => {
+      const user = userEvent.setup();
+      render(<SignupPage />);
+
+      const frenchToggle = screen.getByTitle('French');
+      await user.click(frenchToggle);
+      const englishToggle = screen.getByTitle('English');
+      await user.click(englishToggle);
     });
   });
 });
