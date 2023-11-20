@@ -11,6 +11,7 @@ import axios, { AxiosError } from 'axios';
 // import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+// import {FR,GB} from 'country-flag-icons/react/3x2'
 
 import { Body } from '@/api/apiCalls.ts';
 import Axios from '@/api/axiosConfig.ts';
@@ -153,14 +154,14 @@ function SignupPage(/* {}: Props */) {
     >
       {!signupSuccess && (
         <Box
-          p={4}
+          p={2}
           minWidth="400px"
           maxWidth="500px"
           sx={{
             border: 1,
             borderColor: '#aaaccc',
             borderWidth: 1,
-            borderRadius: 2,
+            borderRadius: 1,
           }}
         >
           <form data-testid="form-signup">
@@ -225,6 +226,36 @@ function SignupPage(/* {}: Props */) {
                 )}
                 {t('signup.signup')}
               </Button>
+
+              <Box
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <button
+                  type="button"
+                  title="English"
+                  onClick={() => onLanguageChange('en')}
+                >
+                  {/* EN */}
+                  <img
+                    src="https://flagcdn.com/24x18/gb.png"
+                    alt="Great Britain Flag"
+                  />
+                </button>
+                <button
+                  type="button"
+                  title="French"
+                  onClick={() => onLanguageChange('fr')}
+                >
+                  <img
+                    src="https://flagcdn.com/24x18/fr.png"
+                    alt="French Flag"
+                  />
+                  {/* FR */}
+                </button>
+              </Box>
             </Stack>
           </form>
         </Box>
@@ -232,20 +263,6 @@ function SignupPage(/* {}: Props */) {
 
       <Box>
         {signupSuccess && <Alert severity="info">{t('signup.success')}</Alert>}
-        <button
-          type="button"
-          title="English"
-          onClick={() => onLanguageChange('en')}
-        >
-          EN
-        </button>
-        <button
-          type="button"
-          title="French"
-          onClick={() => onLanguageChange('fr')}
-        >
-          FR
-        </button>
       </Box>
     </Box>
   );
