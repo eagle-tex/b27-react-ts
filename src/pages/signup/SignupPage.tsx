@@ -15,8 +15,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Body } from '@/api/apiCalls.ts';
 import Axios from '@/api/axiosConfig.ts';
+import LanguageSelector from '@/components/LanguageSelector.tsx';
 import TextInput from '@/components/TextInput.tsx';
-import i18n from '@/i18n/config.ts';
 
 // import { postUser } from '@/api/apiCalls.ts';
 
@@ -137,10 +137,6 @@ function SignupPage(/* {}: Props */) {
   const passwordMismatch =
     password !== passwordRepeat ? t('signup.passwordMismatch') : '';
 
-  const onLanguageChange = async (language: 'en' | 'fr') => {
-    await i18n.changeLanguage(language);
-  };
-
   return (
     <Box
       display="flex"
@@ -227,35 +223,7 @@ function SignupPage(/* {}: Props */) {
                 {t('signup.signup')}
               </Button>
 
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <button
-                  type="button"
-                  title="English"
-                  onClick={() => onLanguageChange('en')}
-                >
-                  {/* EN */}
-                  <img
-                    src="https://flagcdn.com/24x18/gb.png"
-                    alt="Great Britain Flag"
-                  />
-                </button>
-                <button
-                  type="button"
-                  title="French"
-                  onClick={() => onLanguageChange('fr')}
-                >
-                  <img
-                    src="https://flagcdn.com/24x18/fr.png"
-                    alt="French Flag"
-                  />
-                  {/* FR */}
-                </button>
-              </Box>
+              <LanguageSelector />
             </Stack>
           </form>
         </Box>
