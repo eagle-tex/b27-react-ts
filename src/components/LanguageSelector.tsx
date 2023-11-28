@@ -17,12 +17,28 @@ function LanguageSelector(/* {}: Props */) {
       flexDirection="row"
       alignItems="center"
       justifyContent="space-between"
+      // minWidth="400px"
+
+      width="100%"
+      // maxWidth="100%"
+      // mx="auto"
+      // marginX="400px"
+      mt={2}
+      px={2}
+      py={1}
+      // sx={{
+      //   border: 1,
+      //   borderColor: '#aaaccc',
+      //   borderWidth: 1,
+      //   borderRadius: 1,
+      // }}
+      position="fixed"
+      bottom={0}
     >
       <Button
         type="button"
         title="English"
         onClick={() => onLanguageChange('en')}
-        // style={{ padding: '0em' }}
       >
         {/* EN */}
         <img src="https://flagcdn.com/24x18/gb.png" alt="Great Britain Flag" />

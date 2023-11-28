@@ -4,6 +4,8 @@ import {
   Box,
   Button,
   CircularProgress,
+  // Container,
+  Paper,
   Stack,
   Typography,
 } from '@mui/material';
@@ -15,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Body } from '@/api/apiCalls.ts';
 import Axios from '@/api/axiosConfig.ts';
-import LanguageSelector from '@/components/LanguageSelector.tsx';
+// import LanguageSelector from '@/components/LanguageSelector.tsx';
 import TextInput from '@/components/TextInput.tsx';
 
 // import { postUser } from '@/api/apiCalls.ts';
@@ -126,113 +128,140 @@ function SignupPage(/* {}: Props */) {
   //   console.log(state);
   // }, [state]);
 
-  // function isDisabled() {
   const { apiProgress, errors, password, passwordRepeat, signupSuccess } =
     state;
   let disabled = true;
   if (password && passwordRepeat) {
-    disabled = password !== passwordRepeat; // || apiProgress;
+    disabled = password !== passwordRepeat;
   }
 
   const passwordMismatch =
-    password !== passwordRepeat ? t('signup.passwordMismatch') : '';
+    password !== passwordRepeat && passwordRepeat !== ''
+      ? t('signup.passwordMismatch')
+      : '';
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      width="100%"
-      height="100vh"
-      px={4}
-      my={6}
-    >
-      {!signupSuccess && (
-        <Box
-          p={2}
-          minWidth="400px"
-          maxWidth="500px"
-          sx={{
-            border: 1,
-            borderColor: '#aaaccc',
-            borderWidth: 1,
-            borderRadius: 1,
-          }}
+    <div style={{ paddingTop: '40px' }}>
+      <Paper
+        elevation={3}
+        style={{
+          padding: '10px',
+          // marginTop: '50px',
+          maxWidth: '400px',
+          marginInline: 'auto',
+        }}
+      >
+        <div
+        // className="Box1"
+        // display="flex"
+        // flexDirection="column"
+        // alignItems="center"
+        // justifyContent="center"
+        // // maxWidth="350px"
+        // width="100%"
+        // // marginX="auto"
+        // // height="90vh"
+        // px={4}
+        // my={6}
         >
-          <form data-testid="form-signup">
-            <Stack sx={{ width: '100%' }} spacing={2}>
-              <Typography
-                component="h1"
-                variant="h4"
-                mb={2}
-                textAlign="center"
-                color="green"
-              >
-                {t('signup.signup')}
-              </Typography>
+          {!signupSuccess && (
+            <div
+            // className="Box2"
+            // p={2}
+            // width="100%"
+            // minWidth="400px"
+            // maxWidth="500px"
+            // sx={{
+            //   border: 1,
+            //   borderColor: '#aaaccc',
+            //   borderWidth: 1,
+            //   borderRadius: 1,
+            // }}
+            >
+              <form data-testid="form-signup" autoComplete="off">
+                <Stack
+                  className="stack"
+                  // sx={{ width: '100%' }}
+                  spacing={2}
+                >
+                  <Typography
+                    component="h1"
+                    variant="h4"
+                    mb={2}
+                    textAlign="center"
+                    color="primary"
+                  >
+                    {t('signup.signup')}
+                  </Typography>
 
-              <TextInput
-                id="username"
-                label={t('signup.username')}
-                placeholder={t('signup.username')}
-                onChange={onChange}
-                help={errors?.username || ''}
-              />
+                  <TextInput
+                    id="username"
+                    label={t('signup.username')}
+                    placeholder={t('signup.username')}
+                    onChange={onChange}
+                    help={errors?.username || ''}
+                  />
 
-              <TextInput
-                id="email"
-                label={t('signup.email')}
-                placeholder="name@email.com"
-                type="email"
-                onChange={onChange}
-                help={errors?.email || ''}
-              />
+                  <TextInput
+                    id="email"
+                    label={t('signup.email')}
+                    placeholder="name@email.com"
+                    type="email"
+                    onChange={onChange}
+                    help={errors?.email || ''}
+                  />
 
-              <TextInput
-                id="password"
-                label={t('signup.password')}
-                placeholder="••••••••"
-                type="password"
-                onChange={onChange}
-                help={errors?.password || ''}
-              />
+                  <TextInput
+                    id="password"
+                    label={t('signup.password')}
+                    placeholder="••••••••"
+                    type="password"
+                    onChange={onChange}
+                    help={errors?.password || ''}
+                  />
 
-              <TextInput
-                id="passwordRepeat"
-                label={t('signup.passwordRepeat')}
-                placeholder="••••••••"
-                type="password"
-                onChange={onChange}
-                help={passwordMismatch}
-              />
+                  <TextInput
+                    id="passwordRepeat"
+                    label={t('signup.passwordRepeat')}
+                    placeholder="••••••••"
+                    type="password"
+                    onChange={onChange}
+                    help={passwordMismatch}
+                  />
 
-              <Button
-                color="primary"
-                size="large"
-                variant="contained"
-                disabled={disabled || apiProgress}
-                type="submit"
-                onClick={submit}
-              >
-                {apiProgress && (
-                  <span role="status" style={{ marginRight: '1rem' }}>
-                    <CircularProgress size={16} />{' '}
-                  </span>
-                )}
-                {t('signup.signup')}
-              </Button>
+                  <Button
+                    color="primary"
+                    // size="large"
+                    variant="contained"
+                    disabled={disabled || apiProgress}
+                    type="submit"
+                    onClick={submit}
+                  >
+                    {apiProgress && (
+                      <span role="status" style={{ marginRight: '1rem' }}>
+                        <CircularProgress size={16} />{' '}
+                      </span>
+                    )}
+                    {t('signup.signup')}
+                  </Button>
 
-              <LanguageSelector />
-            </Stack>
-          </form>
-        </Box>
-      )}
+                  {/* <LanguageSelector /> */}
+                </Stack>
+              </form>
+            </div>
+          )}
+          {/* </Paper> */}
 
-      <Box>
-        {signupSuccess && <Alert severity="info">{t('signup.success')}</Alert>}
-      </Box>
-    </Box>
+          <Box>
+            {signupSuccess && (
+              <Alert severity="info">{t('signup.success')}</Alert>
+            )}
+          </Box>
+
+          {/* <LanguageSelector /> */}
+        </div>
+      </Paper>
+    </div>
   );
 }
 
