@@ -1,17 +1,8 @@
-import {
-  Container,
-  CssBaseline,
-  ThemeProvider,
-  createTheme,
-} from '@mui/material';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 import SignupPage from '@/pages/signup/SignupPage.tsx';
 
 import LanguageSelector from './components/LanguageSelector.tsx';
-// import '@fontsource/roboto/300.css';
-// import '@fontsource/roboto/400.css';
-// import '@fontsource/roboto/500.css';
-// import '@fontsource/roboto/700.css';
 
 import './style.css';
 
@@ -48,13 +39,10 @@ function App() {
           width: '100%',
           backgroundColor: '#fafafa',
           height: '100vh',
-          // paddingTop: '50px',
         }}
       >
-        {/* <Container> */}
         <SignupPage />
         <LanguageSelector />
-        {/* </Container> */}
       </div>
     </ThemeProvider>
   );
