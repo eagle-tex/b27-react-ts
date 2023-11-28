@@ -5,6 +5,8 @@ import { DefaultBodyType, HttpResponse, delay, http } from 'msw';
 
 import { BASE_URL } from '@/api/axiosConfig.ts';
 // import { mockedUser } from '@/mocks/handlers.ts';
+import LanguageSelector from '@/components/LanguageSelector.tsx';
+import i18n from '@/i18n/config.ts';
 import en from '@/locale/en/translation.json';
 import fr from '@/locale/fr/translation.json';
 import { server } from '@/mocks/server.ts';
@@ -23,52 +25,57 @@ const {
 } = frTranslations;
 
 describe('Sign Up Page', () => {
+  function renderSignupAndLanguageSelector() {
+    render(<SignupPage />);
+    render(<LanguageSelector />);
+  }
+
   describe('Layout', () => {
     it(`001 - Renders "${signupFr}"`, () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
         signupFr
       );
     });
 
     it('002 - has username input', () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       const input = screen.getByLabelText(usernameFr);
       expect(input).toBeInTheDocument();
     });
 
     it('003 - has email input', () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       const emailInput = screen.getByLabelText(emailFr);
       expect(emailInput).toBeInTheDocument();
     });
 
     it('004 - has password input', () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       const passwordInput = screen.getByLabelText(passwordFr);
       expect(passwordInput).toBeInTheDocument();
     });
 
     it('005 - password input has password type', () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       const passwordInput = screen.getByLabelText(passwordFr);
       expect(passwordInput).toHaveAttribute('type', 'password');
     });
 
     it('006 - has password repeat input', () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       const passwordRepeatInput = screen.getByLabelText(passwordRepeatFr);
       expect(passwordRepeatInput).toBeInTheDocument();
     });
 
     it('007 - password repeat input has password type', () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       const passwordRepeatInput = screen.getByLabelText(passwordRepeatFr);
       expect(passwordRepeatInput).toHaveAttribute('type', 'password');
     });
 
     it(`008 - has "${signupFr}" button`, () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       const signupButton = screen.queryByRole('button', {
         name: signupFr,
       });
@@ -76,7 +83,7 @@ describe('Sign Up Page', () => {
     });
 
     it('009 - disables the button initially', () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
       const signupButton = screen.queryByRole('button', {
         name: signupFr,
       });
@@ -118,6 +125,7 @@ describe('Sign Up Page', () => {
 
     const setup = async () => {
       render(<SignupPage />);
+      render(<LanguageSelector />);
       usernameInput = screen.getByLabelText(usernameFr);
       emailInput = screen.getByLabelText(emailFr);
       passwordInput = screen.getByLabelText(passwordFr);
@@ -284,8 +292,12 @@ describe('Sign Up Page', () => {
       username: usernameEn,
     } = enTranslations;
 
+    afterEach(async () => {
+      await i18n.changeLanguage('fr');
+    });
+
     it('024 - initially displays all text in French', () => {
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
 
       expect(
         screen.getByRole('heading', { name: signupFr })
@@ -301,7 +313,7 @@ describe('Sign Up Page', () => {
 
     it('025 - displays all text in English after changing the language', async () => {
       const user = userEvent.setup();
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
 
       const englishToggle = screen.getByTitle('English');
       await user.click(englishToggle);
@@ -320,7 +332,7 @@ describe('Sign Up Page', () => {
 
     it('026 - displays all text in French after changing back from English', async () => {
       const user = userEvent.setup();
-      render(<SignupPage />);
+      renderSignupAndLanguageSelector();
 
       const frenchToggle = screen.getByTitle('French');
       await user.click(frenchToggle);
