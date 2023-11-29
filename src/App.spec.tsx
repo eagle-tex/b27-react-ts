@@ -24,4 +24,12 @@ describe('Routing', () => {
 
     expect(signupPage).toBeInTheDocument();
   });
+
+  it('033 - does not display home page when at /signup', () => {
+    window.history.pushState({}, '', '/signup');
+    render(<App />);
+    const homePage = screen.queryByTestId('home-page');
+
+    expect(homePage).not.toBeInTheDocument();
+  });
 });
