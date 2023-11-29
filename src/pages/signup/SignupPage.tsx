@@ -139,7 +139,7 @@ function SignupPage(/* {}: Props */) {
       : '';
 
   return (
-    <div style={{ paddingTop: '40px' }}>
+    <div style={{ paddingTop: '40px' }} data-testid="signup-page">
       {!signupSuccess && (
         <Paper
           elevation={3}
