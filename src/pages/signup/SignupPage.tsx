@@ -19,6 +19,7 @@ import { Body } from '@/api/apiCalls.ts';
 import Axios from '@/api/axiosConfig.ts';
 // import LanguageSelector from '@/components/LanguageSelector.tsx';
 import TextInput from '@/components/TextInput.tsx';
+import i18n from '@/i18n/config.ts';
 
 // import { postUser } from '@/api/apiCalls.ts';
 
@@ -66,7 +67,11 @@ function SignupPage(/* {}: Props */) {
   });
 
   const postUser = (body: Body) => {
-    return Axios.post('/api/v1/users', body);
+    return Axios.post('/api/v1/users', body, {
+      headers: {
+        'Accept-Language': i18n.language,
+      },
+    });
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
