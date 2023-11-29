@@ -25,57 +25,57 @@ const {
 } = frTranslations;
 
 describe('Sign Up Page', () => {
-  function renderSignupAndLanguageSelector() {
-    render(<SignupPage />);
-    render(<LanguageSelector />);
-  }
-
   describe('Layout', () => {
+    function renderSignupAndLanguage() {
+      render(<SignupPage />);
+      render(<LanguageSelector />);
+    }
+
     it(`001 - Renders "${signupFr}"`, () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
         signupFr
       );
     });
 
     it('002 - has username input', () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       const input = screen.getByLabelText(usernameFr);
       expect(input).toBeInTheDocument();
     });
 
     it('003 - has email input', () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       const emailInput = screen.getByLabelText(emailFr);
       expect(emailInput).toBeInTheDocument();
     });
 
     it('004 - has password input', () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       const passwordInput = screen.getByLabelText(passwordFr);
       expect(passwordInput).toBeInTheDocument();
     });
 
     it('005 - password input has password type', () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       const passwordInput = screen.getByLabelText(passwordFr);
       expect(passwordInput).toHaveAttribute('type', 'password');
     });
 
     it('006 - has password repeat input', () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       const passwordRepeatInput = screen.getByLabelText(passwordRepeatFr);
       expect(passwordRepeatInput).toBeInTheDocument();
     });
 
     it('007 - password repeat input has password type', () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       const passwordRepeatInput = screen.getByLabelText(passwordRepeatFr);
       expect(passwordRepeatInput).toHaveAttribute('type', 'password');
     });
 
     it(`008 - has "${signupFr}" button`, () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       const signupButton = screen.queryByRole('button', {
         name: signupFr,
       });
@@ -83,7 +83,7 @@ describe('Sign Up Page', () => {
     });
 
     it('009 - disables the button initially', () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
       const signupButton = screen.queryByRole('button', {
         name: signupFr,
       });
@@ -285,12 +285,22 @@ describe('Sign Up Page', () => {
     const {
       email: emailEn,
       password: passwordEn,
-      // passwordMismatch: passwordMismatchEn,
+      passwordMismatch: passwordMismatchEn,
       passwordRepeat: passwordRepeatEn,
       signup: signupEn,
       // success: successEn,
       username: usernameEn,
     } = enTranslations;
+
+    let englishToggle: HTMLElement | null;
+    let frenchToggle: HTMLElement | null;
+
+    function renderSignupAndLanguage() {
+      render(<SignupPage />);
+      render(<LanguageSelector />);
+      englishToggle = screen.getByTitle('English');
+      frenchToggle = screen.getByTitle('French');
+    }
 
     afterEach(() => {
       return act(async () => {
@@ -299,7 +309,7 @@ describe('Sign Up Page', () => {
     });
 
     it('024 - initially displays all text in French', () => {
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
 
       expect(
         screen.getByRole('heading', { name: signupFr })
@@ -315,10 +325,9 @@ describe('Sign Up Page', () => {
 
     it('025 - displays all text in English after changing the language', async () => {
       const user = userEvent.setup();
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
 
-      const englishToggle = screen.getByTitle('English');
-      await user.click(englishToggle);
+      await user.click(englishToggle as HTMLElement);
 
       expect(
         screen.getByRole('heading', { name: signupEn })
@@ -334,27 +343,22 @@ describe('Sign Up Page', () => {
 
     it('026 - displays all text in French after changing back from English', async () => {
       const user = userEvent.setup();
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
 
-      const frenchToggle = screen.getByTitle('French');
-      await user.click(frenchToggle);
-      const englishToggle = screen.getByTitle('English');
-      await user.click(englishToggle);
+      await user.click(frenchToggle as HTMLElement);
+      await user.click(englishToggle as HTMLElement);
     });
 
     it('027 - displays password mismatch validation in English', async () => {
       const user = userEvent.setup();
-      renderSignupAndLanguageSelector();
+      renderSignupAndLanguage();
 
-      const englishToggle = screen.getByTitle('English');
-      await user.click(englishToggle);
+      await user.click(englishToggle as HTMLElement);
       const passwordInput = screen.getByLabelText(passwordEn);
       await user.type(passwordInput, 'P4ssword');
       const passwordRepeatInput = screen.getByLabelText(passwordRepeatEn);
       await user.type(passwordRepeatInput, 'DifferentP4ssword');
-      const validationMessageInEnglish = screen.queryByText(
-        en.signup.passwordMismatch
-      );
+      const validationMessageInEnglish = screen.queryByText(passwordMismatchEn);
 
       expect(validationMessageInEnglish).toBeInTheDocument();
     });
