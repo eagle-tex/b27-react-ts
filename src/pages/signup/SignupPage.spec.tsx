@@ -1,4 +1,10 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DefaultBodyType, HttpResponse, delay, http } from 'msw';
 // import { setupServer } from 'msw/node';
@@ -25,6 +31,32 @@ const {
 } = frTranslations;
 
 describe('Sign Up Page', () => {
+  let requestBody: DefaultBodyType;
+  let counter = 0;
+  let acceptLanguageHeader: string | null;
+
+  beforeEach(() => {
+    server.use(
+      http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
+        requestBody = await request.json();
+        counter += 1;
+        acceptLanguageHeader = request.headers.get('Accept-Language');
+        await delay(100);
+        return HttpResponse.json(requestBody, { status: 201 });
+      })
+    );
+
+    counter = 0;
+  });
+
+  afterEach(() => {
+    // This will remove any runtime request handlers
+    // after each test, ensuring isolated network behavior.
+    server.resetHandlers();
+  });
+
+  afterAll(() => server.close());
+
   describe('Layout', () => {
     function renderSignupAndLanguage() {
       render(<SignupPage />);
@@ -92,30 +124,6 @@ describe('Sign Up Page', () => {
   });
 
   describe('Interactions', () => {
-    let requestBody: DefaultBodyType;
-    let counter = 0;
-
-    beforeEach(() => {
-      server.use(
-        http.post(`${BASE_URL}/api/v1/users`, async ({ request }) => {
-          requestBody = await request.json();
-          counter += 1;
-          await delay(100);
-          return HttpResponse.json(requestBody, { status: 201 });
-        })
-      );
-
-      counter = 0;
-    });
-
-    afterEach(() => {
-      // This will remove any runtime request handlers
-      // after each test, ensuring isolated network behavior.
-      server.resetHandlers();
-    });
-
-    afterAll(() => server.close());
-
     let usernameInput: HTMLElement | null;
     let emailInput: HTMLElement | null;
     let passwordInput: HTMLElement | null;
@@ -294,12 +302,16 @@ describe('Sign Up Page', () => {
 
     let englishToggle: HTMLElement | null;
     let frenchToggle: HTMLElement | null;
+    let passwordInput: HTMLElement | null;
+    let passwordRepeatInput: HTMLElement | null;
 
     function renderSignupAndLanguage() {
       render(<SignupPage />);
       render(<LanguageSelector />);
       englishToggle = screen.getByTitle('English');
       frenchToggle = screen.getByTitle('French');
+      passwordInput = screen.getByLabelText(passwordFr);
+      passwordRepeatInput = screen.getByLabelText(passwordRepeatFr);
     }
 
     afterEach(() => {
@@ -354,13 +366,27 @@ describe('Sign Up Page', () => {
       renderSignupAndLanguage();
 
       await user.click(englishToggle as HTMLElement);
-      const passwordInput = screen.getByLabelText(passwordEn);
+      passwordInput = screen.getByLabelText(passwordEn);
       await user.type(passwordInput, 'P4ssword');
-      const passwordRepeatInput = screen.getByLabelText(passwordRepeatEn);
+      passwordRepeatInput = screen.getByLabelText(passwordRepeatEn);
       await user.type(passwordRepeatInput, 'DifferentP4ssword');
       const validationMessageInEnglish = screen.queryByText(passwordMismatchEn);
 
       expect(validationMessageInEnglish).toBeInTheDocument();
+    });
+
+    it('028 - sets Accept-Language header to "fr" for outgoing request', async () => {
+      const user = userEvent.setup();
+      renderSignupAndLanguage();
+
+      await user.type(passwordInput as HTMLElement, 'P4ssword');
+      await user.type(passwordRepeatInput as HTMLElement, 'P4ssword');
+      const signupButton = screen.getByRole('button', { name: signupFr });
+      const form = screen.queryByTestId('form-signup');
+      await user.click(signupButton);
+      await waitForElementToBeRemoved(form);
+
+      expect(acceptLanguageHeader).toBe('fr');
     });
   });
 });
