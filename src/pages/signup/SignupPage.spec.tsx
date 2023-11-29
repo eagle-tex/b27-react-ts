@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DefaultBodyType, HttpResponse, delay, http } from 'msw';
 // import { setupServer } from 'msw/node';
@@ -292,8 +292,10 @@ describe('Sign Up Page', () => {
       username: usernameEn,
     } = enTranslations;
 
-    afterEach(async () => {
-      await i18n.changeLanguage('fr');
+    afterEach(() => {
+      return act(async () => {
+        await i18n.changeLanguage('fr');
+      });
     });
 
     it('024 - initially displays all text in French', () => {
@@ -338,6 +340,23 @@ describe('Sign Up Page', () => {
       await user.click(frenchToggle);
       const englishToggle = screen.getByTitle('English');
       await user.click(englishToggle);
+    });
+
+    it('027 - displays password mismatch validation in English', async () => {
+      const user = userEvent.setup();
+      renderSignupAndLanguageSelector();
+
+      const englishToggle = screen.getByTitle('English');
+      await user.click(englishToggle);
+      const passwordInput = screen.getByLabelText(passwordEn);
+      await user.type(passwordInput, 'P4ssword');
+      const passwordRepeatInput = screen.getByLabelText(passwordRepeatEn);
+      await user.type(passwordRepeatInput, 'DifferentP4ssword');
+      const validationMessageInEnglish = screen.queryByText(
+        en.signup.passwordMismatch
+      );
+
+      expect(validationMessageInEnglish).toBeInTheDocument();
     });
   });
 });
