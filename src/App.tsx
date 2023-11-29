@@ -43,7 +43,7 @@ function App() {
         }}
       >
         <HomePage />
-        {/* <SignupPage /> */}
+        {window.location.pathname === '/signup' && <SignupPage />}
         <LanguageSelector />
       </div>
     </ThemeProvider>
