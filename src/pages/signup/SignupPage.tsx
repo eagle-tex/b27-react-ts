@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  // Container,
   Paper,
   Stack,
   Typography,
@@ -13,15 +12,9 @@ import axios, { AxiosError } from 'axios';
 // import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import {FR,GB} from 'country-flag-icons/react/3x2'
 
-import { Body } from '@/api/apiCalls.ts';
-import Axios from '@/api/axiosConfig.ts';
-// import LanguageSelector from '@/components/LanguageSelector.tsx';
+import { Body, postUser } from '@/api/apiCalls.ts';
 import TextInput from '@/components/TextInput.tsx';
-import i18n from '@/i18n/config.ts';
-
-// import { postUser } from '@/api/apiCalls.ts';
 
 // type Props = {}
 
@@ -66,13 +59,13 @@ function SignupPage(/* {}: Props */) {
     errors: {} as Errors,
   });
 
-  const postUser = (body: Body) => {
-    return Axios.post('/api/v1/users', body, {
-      headers: {
-        'Accept-Language': i18n.language,
-      },
-    });
-  };
+  // const postUser = (body: Body) => {
+  //   return Axios.post('/api/v1/users', body, {
+  //     headers: {
+  //       'Accept-Language': i18n.language,
+  //     },
+  //   });
+  // };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -234,8 +227,6 @@ function SignupPage(/* {}: Props */) {
       <Box>
         {signupSuccess && <Alert severity="info">{t('signup.success')}</Alert>}
       </Box>
-
-      {/* <LanguageSelector /> */}
     </div>
   );
 }
