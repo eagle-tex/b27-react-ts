@@ -3,6 +3,7 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import SignupPage from '@/pages/signup/SignupPage.tsx';
 
 import LanguageSelector from './components/LanguageSelector.tsx';
+import HomePage from './pages/home/HomePage.tsx';
 
 import './style.css';
 
@@ -41,6 +42,7 @@ function App() {
           height: '100vh',
         }}
       >
+        <HomePage />
         <SignupPage />
         <LanguageSelector />
       </div>
