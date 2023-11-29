@@ -1,5 +1,5 @@
 {
-  "title": "Welcome!",
+  "title": "Welcome {{name}}, to react using react-i18next fully type-safe",
   "signup": {
     "part1": "This is just a basic example of how to use i18next with typescript",
     "part2": "😉",
@@ -11,5 +11,11 @@
     "success": "Please check your e-mail to activate your account",
     "passwordMismatch": "Password mismatch"
   },
-  "inter": "interpolated {{val}}"
+  "inter": "interpolated {{val}}",
+  "description": {
+    "part1": "This is a simple example.",
+    "part2": "😉"
+  },
+  "userMessagesUnread_one": "You have {{count}} unread message.",
+  "userMessagesUnread_other": "You have {{count}} unread messages."
 }
