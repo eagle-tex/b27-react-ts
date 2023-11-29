@@ -41,7 +41,7 @@ describe('Sign Up Page', () => {
         requestBody = await request.json();
         counter += 1;
         acceptLanguageHeader = request.headers.get('Accept-Language');
-        await delay(100);
+        await delay(25);
         return HttpResponse.json(requestBody, { status: 201 });
       })
     );
@@ -387,6 +387,21 @@ describe('Sign Up Page', () => {
       await waitForElementToBeRemoved(form);
 
       expect(acceptLanguageHeader).toBe('fr');
+    });
+
+    it('029 - sets Accept-Language header to "en" for outgoing request after selecting English language', async () => {
+      const user = userEvent.setup();
+      renderSignupAndLanguage();
+
+      await user.type(passwordInput as HTMLElement, 'P4ssword');
+      await user.type(passwordRepeatInput as HTMLElement, 'P4ssword');
+      const signupButton = screen.getByRole('button', { name: signupFr });
+      await user.click(englishToggle as HTMLElement);
+      const form = screen.queryByTestId('form-signup');
+      await user.click(signupButton);
+      await waitForElementToBeRemoved(form);
+
+      expect(acceptLanguageHeader).toBe('en');
     });
   });
 });
