@@ -42,7 +42,7 @@ function App() {
           height: '100vh',
         }}
       >
-        <HomePage />
+        {window.location.pathname === '/' && <HomePage />}
         {window.location.pathname === '/signup' && <SignupPage />}
         <LanguageSelector />
       </div>
