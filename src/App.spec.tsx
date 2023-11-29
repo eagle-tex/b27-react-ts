@@ -16,4 +16,12 @@ describe('Routing', () => {
 
     expect(signupPage).not.toBeInTheDocument();
   });
+
+  it('032 - displays signup page at /signup', () => {
+    window.history.pushState({}, '', '/signup');
+    render(<App />);
+    const signupPage = screen.queryByTestId('signup-page');
+
+    expect(signupPage).toBeInTheDocument();
+  });
 });
