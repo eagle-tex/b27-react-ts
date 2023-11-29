@@ -9,4 +9,11 @@ describe('Routing', () => {
 
     expect(homePage).toBeInTheDocument();
   });
+
+  it('031 - does not display SignupPage when at /', () => {
+    render(<App />);
+    const signupPage = screen.queryByTestId('signup-page');
+
+    expect(signupPage).not.toBeInTheDocument();
+  });
 });
