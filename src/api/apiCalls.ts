@@ -1,6 +1,7 @@
 // import axios from 'axios';
 
 import Axios from '@/api/axiosConfig.ts';
+import i18n from '@/i18n/config.ts';
 
 export type Body = {
   username: string;
@@ -9,14 +10,9 @@ export type Body = {
 };
 
 export const postUser = (body: Body) => {
-  Axios.post('/api/v1/users', body)
-    .then((response) => {
-      // console.log({
-      //   where: 'in postUser',
-      //   status: response.status,
-      //   data: response.data as unknown,
-      // });
-      return response.data as Body;
-    })
-    .catch((err) => console.log(err));
+  return Axios.post('/api/v1/users', body, {
+    headers: {
+      'Accept-Language': i18n.language,
+    },
+  });
 };

@@ -1,0 +1,15 @@
+{
+  "title": "Willkommen!",
+  "signup": {
+    "part1": "Dies ist nur ein einfaches Beispiel für die Verwendung von i18next mit Typescript",
+    "part2": "😉",
+    "signup": "Créer un compte",
+    "username": "Nom utilisateur",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "passwordRepeat": "Répéter mot de passe",
+    "success": "Veuillez vérifier votre e-mail pour activer votre compte",
+    "passwordMismatch": "Mot de passe non-concordant"
+  },
+  "inter": "interpoler {{val}}"
+}

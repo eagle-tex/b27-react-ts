@@ -4,17 +4,17 @@ import {
   Box,
   Button,
   CircularProgress,
+  Paper,
   Stack,
   Typography,
 } from '@mui/material';
 import axios, { AxiosError } from 'axios';
+// import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { Body } from '@/api/apiCalls.ts';
-import Axios from '@/api/axiosConfig.ts';
+import { Body, postUser } from '@/api/apiCalls.ts';
 import TextInput from '@/components/TextInput.tsx';
-
-// import { postUser } from '@/api/apiCalls.ts';
 
 // type Props = {}
 
@@ -47,6 +47,8 @@ type SignupState = {
 };
 
 function SignupPage(/* {}: Props */) {
+  const { t } = useTranslation();
+
   const [state, setState] = useState<SignupState>({
     username: '',
     email: '',
@@ -57,9 +59,13 @@ function SignupPage(/* {}: Props */) {
     errors: {} as Errors,
   });
 
-  const postUser = (body: Body) => {
-    return Axios.post('/api/v1/users', body);
-  };
+  // const postUser = (body: Body) => {
+  //   return Axios.post('/api/v1/users', body, {
+  //     headers: {
+  //       'Accept-Language': i18n.language,
+  //     },
+  //   });
+  // };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -69,8 +75,8 @@ function SignupPage(/* {}: Props */) {
     //   This is not necessary in our case because we have no nested object
     // NOTE: Use the version below if the errors state has a nested object inside
     //   const errorsCopy = JSON.parse(JSON.stringify(state.errors));
-    const errorsCopy = { ...state };
-    delete errorsCopy[id as keyof SignupState];
+    const errorsCopy = { ...state.errors };
+    delete errorsCopy[id as keyof typeof errorsCopy];
 
     setState((prevState) => {
       return { ...prevState, [id]: value, errors: errorsCopy };
@@ -120,63 +126,57 @@ function SignupPage(/* {}: Props */) {
   //   console.log(state);
   // }, [state]);
 
-  // function isDisabled() {
   const { apiProgress, errors, password, passwordRepeat, signupSuccess } =
     state;
   let disabled = true;
   if (password && passwordRepeat) {
-    disabled = password !== passwordRepeat; // || apiProgress;
+    disabled = password !== passwordRepeat;
   }
 
   const passwordMismatch =
-    password !== passwordRepeat ? 'Password mismatch' : '';
+    password !== passwordRepeat && passwordRepeat !== ''
+      ? t('signup.passwordMismatch')
+      : '';
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      width="100%"
-      height="100vh"
-      px={4}
-      my={6}
-    >
+    <div style={{ paddingTop: '40px' }}>
       {!signupSuccess && (
-        <Box
-          p={4}
-          minWidth="400px"
-          maxWidth="500px"
-          sx={{
-            border: 1,
-            borderColor: '#aaaccc',
-            borderWidth: 1,
-            borderRadius: 2,
+        <Paper
+          elevation={3}
+          style={{
+            padding: '10px',
+            // marginTop: '50px',
+            maxWidth: '400px',
+            marginInline: 'auto',
           }}
         >
-          <form data-testid="form-signup">
-            <Stack sx={{ width: '100%' }} spacing={2}>
+          <form data-testid="form-signup" autoComplete="off">
+            <Stack
+              className="stack"
+              // sx={{ width: '100%' }}
+              spacing={2}
+            >
               <Typography
                 component="h1"
                 variant="h4"
                 mb={2}
                 textAlign="center"
-                color="green"
+                color="primary"
               >
-                Sign up
+                {t('signup.signup')}
               </Typography>
 
               <TextInput
                 id="username"
-                label="Username"
-                placeholder="Username"
+                label={t('signup.username')}
+                placeholder={t('signup.username')}
                 onChange={onChange}
                 help={errors?.username || ''}
               />
 
               <TextInput
                 id="email"
-                label="Email"
+                label={t('signup.email')}
                 placeholder="name@email.com"
                 type="email"
                 onChange={onChange}
@@ -185,7 +185,7 @@ function SignupPage(/* {}: Props */) {
 
               <TextInput
                 id="password"
-                label="Password"
+                label={t('signup.password')}
                 placeholder="••••••••"
                 type="password"
                 onChange={onChange}
@@ -194,7 +194,7 @@ function SignupPage(/* {}: Props */) {
 
               <TextInput
                 id="passwordRepeat"
-                label="Confirm password"
+                label={t('signup.passwordRepeat')}
                 placeholder="••••••••"
                 type="password"
                 onChange={onChange}
@@ -203,7 +203,7 @@ function SignupPage(/* {}: Props */) {
 
               <Button
                 color="primary"
-                size="large"
+                // size="large"
                 variant="contained"
                 disabled={disabled || apiProgress}
                 type="submit"
@@ -214,19 +214,20 @@ function SignupPage(/* {}: Props */) {
                     <CircularProgress size={16} />{' '}
                   </span>
                 )}
-                Sign up
+                {t('signup.signup')}
               </Button>
+
+              {/* <LanguageSelector /> */}
             </Stack>
           </form>
-        </Box>
+        </Paper>
       )}
+      {/* </Paper> */}
 
-      {signupSuccess && (
-        <Alert severity="info">
-          Please check your e-mail to activate your account
-        </Alert>
-      )}
-    </Box>
+      <Box>
+        {signupSuccess && <Alert severity="info">{t('signup.success')}</Alert>}
+      </Box>
+    </div>
   );
 }
 
