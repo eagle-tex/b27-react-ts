@@ -43,7 +43,7 @@ function App() {
         }}
       >
         <HomePage />
-        <SignupPage />
+        {/* <SignupPage /> */}
         <LanguageSelector />
       </div>
     </ThemeProvider>
