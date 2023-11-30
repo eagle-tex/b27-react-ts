@@ -18,19 +18,18 @@ describe('Routing', () => {
     }
   );
 
-  it('032 - does not display SignupPage when at /', () => {
-    window.history.pushState({}, '', '/');
-    render(<App />);
-    const signupPage = screen.queryByTestId('signup-page');
+  it.each`
+    testNumber | path         | pageTestId       | page
+    ${32}      | ${'/'}       | ${'signup-page'} | ${'SignupPage'}
+    ${33}      | ${'/signup'} | ${'home-page'}   | ${'HomePage'}
+  `(
+    '0$testNumber - does not display $page when path is $path',
+    ({ pageTestId, path }) => {
+      window.history.pushState({}, '', path as string);
+      render(<App />);
+      const page = screen.queryByTestId(pageTestId as string);
 
-    expect(signupPage).not.toBeInTheDocument();
-  });
-
-  it('033 - does not display home page when at /signup', () => {
-    window.history.pushState({}, '', '/signup');
-    render(<App />);
-    const homePage = screen.queryByTestId('home-page');
-
-    expect(homePage).not.toBeInTheDocument();
-  });
+      expect(page).not.toBeInTheDocument();
+    }
+  );
 });
