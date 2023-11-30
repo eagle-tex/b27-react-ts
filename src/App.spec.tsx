@@ -6,7 +6,7 @@ describe('Routing', () => {
   it.each`
     testNumber | path         | pageTestId       | page
     ${30}      | ${'/'}       | ${'home-page'}   | ${'HomePage'}
-    ${32}      | ${'/signup'} | ${'signup-page'} | ${'SignupPage'}
+    ${31}      | ${'/signup'} | ${'signup-page'} | ${'SignupPage'}
   `(
     '0$testNumber - displays $page when path is $path',
     ({ pageTestId, path }) => {
@@ -18,7 +18,7 @@ describe('Routing', () => {
     }
   );
 
-  it('031 - does not display SignupPage when at /', () => {
+  it('032 - does not display SignupPage when at /', () => {
     window.history.pushState({}, '', '/');
     render(<App />);
     const signupPage = screen.queryByTestId('signup-page');
