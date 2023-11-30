@@ -7,6 +7,7 @@ describe('Routing', () => {
     testNumber | path         | pageTestId       | page
     ${30}      | ${'/'}       | ${'home-page'}   | ${'HomePage'}
     ${31}      | ${'/signup'} | ${'signup-page'} | ${'SignupPage'}
+    ${34}      | ${'/login'}  | ${'login-page'}  | ${'LoginPage'}
   `(
     '0$testNumber - displays $page when path is $path',
     ({ pageTestId, path }) => {
