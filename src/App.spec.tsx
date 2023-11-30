@@ -22,7 +22,11 @@ describe('Routing', () => {
   it.each`
     testNumber | path         | pageTestId       | page
     ${32}      | ${'/'}       | ${'signup-page'} | ${'SignupPage'}
+    ${35}      | ${'/'}       | ${'login-page'}  | ${'LoginPage'}
     ${33}      | ${'/signup'} | ${'home-page'}   | ${'HomePage'}
+    ${36}      | ${'/signup'} | ${'login-page'}  | ${'LoginPage'}
+    ${37}      | ${'/login'}  | ${'home-page'}   | ${'HomePage'}
+    ${38}      | ${'/login'}  | ${'signup-page'} | ${'SignupPage'}
   `(
     '0$testNumber - does not display $page when path is $path',
     ({ pageTestId, path }) => {
