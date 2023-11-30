@@ -1,9 +1,10 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
+import HomePage from '@/pages/home/HomePage.tsx';
+import LoginPage from '@/pages/login/LoginPage.tsx';
 import SignupPage from '@/pages/signup/SignupPage.tsx';
 
 import LanguageSelector from './components/LanguageSelector.tsx';
-import HomePage from './pages/home/HomePage.tsx';
 
 import './style.css';
 
@@ -24,13 +25,6 @@ const customTheme = createTheme({
   },
 });
 
-// const useStyles = makeStyles({
-//   page: {
-//     width: '100%',
-//     backgroundColor: '#ccc',
-//   },
-// });
-
 function App() {
   return (
     <ThemeProvider theme={customTheme}>
@@ -44,6 +38,7 @@ function App() {
       >
         {window.location.pathname === '/' && <HomePage />}
         {window.location.pathname === '/signup' && <SignupPage />}
+        {window.location.pathname === '/login' && <LoginPage />}
         <LanguageSelector />
       </div>
     </ThemeProvider>
