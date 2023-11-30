@@ -3,6 +3,7 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import HomePage from '@/pages/home/HomePage.tsx';
 import LoginPage from '@/pages/login/LoginPage.tsx';
 import SignupPage from '@/pages/signup/SignupPage.tsx';
+import UserPage from '@/pages/user/UserPage.tsx';
 
 import LanguageSelector from './components/LanguageSelector.tsx';
 
@@ -39,6 +40,7 @@ function App() {
         {window.location.pathname === '/' && <HomePage />}
         {window.location.pathname === '/signup' && <SignupPage />}
         {window.location.pathname === '/login' && <LoginPage />}
+        {window.location.pathname === '/user/1' && <UserPage />}
         <LanguageSelector />
       </div>
     </ThemeProvider>
