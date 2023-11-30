@@ -3,26 +3,26 @@ import { render, screen } from '@testing-library/react';
 import App from './App.tsx';
 
 describe('Routing', () => {
-  it('030 - displays homepage at /', () => {
-    render(<App />);
-    const homePage = screen.getByTestId('home-page');
+  it.each`
+    testNumber | path         | pageTestId       | page
+    ${30}      | ${'/'}       | ${'home-page'}   | ${'HomePage'}
+    ${32}      | ${'/signup'} | ${'signup-page'} | ${'SignupPage'}
+  `(
+    '0$testNumber - displays $page when path is $path',
+    ({ pageTestId, path }) => {
+      window.history.pushState({}, '', path as string);
+      render(<App />);
+      const page = screen.queryByTestId(pageTestId as string);
 
-    expect(homePage).toBeInTheDocument();
-  });
+      expect(page).toBeInTheDocument();
+    }
+  );
 
   it('031 - does not display SignupPage when at /', () => {
     render(<App />);
     const signupPage = screen.queryByTestId('signup-page');
 
     expect(signupPage).not.toBeInTheDocument();
-  });
-
-  it('032 - displays signup page at /signup', () => {
-    window.history.pushState({}, '', '/signup');
-    render(<App />);
-    const signupPage = screen.queryByTestId('signup-page');
-
-    expect(signupPage).toBeInTheDocument();
   });
 
   it('033 - does not display home page when at /signup', () => {
