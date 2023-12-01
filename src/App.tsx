@@ -1,11 +1,11 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
+import LanguageSelector from '@/components/LanguageSelector.tsx';
 import HomePage from '@/pages/home/HomePage.tsx';
 import LoginPage from '@/pages/login/LoginPage.tsx';
 import SignupPage from '@/pages/signup/SignupPage.tsx';
 import UserPage from '@/pages/user/UserPage.tsx';
-
-import LanguageSelector from './components/LanguageSelector.tsx';
 
 import './style.css';
 
@@ -27,6 +27,8 @@ const customTheme = createTheme({
 });
 
 function App() {
+  const { t } = useTranslation();
+
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
@@ -40,6 +42,9 @@ function App() {
         <div>
           <a href="/" title="Home">
             B27 Projects
+          </a>
+          <a href="/signup" title={t('signup.signup')}>
+            {t('signup.signup')}
           </a>
         </div>
         {window.location.pathname === '/' && <HomePage />}
