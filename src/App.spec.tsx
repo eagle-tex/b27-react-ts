@@ -25,10 +25,16 @@ describe('Routing', () => {
     testNumber | path         | pageTestId       | page
     ${32}      | ${'/'}       | ${'signup-page'} | ${'SignupPage'}
     ${35}      | ${'/'}       | ${'login-page'}  | ${'LoginPage'}
+    ${41}      | ${'/'}       | ${'user-page'}   | ${'UserPage'}
     ${33}      | ${'/signup'} | ${'home-page'}   | ${'HomePage'}
     ${36}      | ${'/signup'} | ${'login-page'}  | ${'LoginPage'}
+    ${42}      | ${'/signup'} | ${'user-page'}   | ${'UserPage'}
     ${37}      | ${'/login'}  | ${'home-page'}   | ${'HomePage'}
     ${38}      | ${'/login'}  | ${'signup-page'} | ${'SignupPage'}
+    ${43}      | ${'/login'}  | ${'user-page'}   | ${'UserPage'}
+    ${44}      | ${'/user/1'} | ${'home-page'}   | ${'HomePage'}
+    ${45}      | ${'/user/1'} | ${'signup-page'} | ${'SignupPage'}
+    ${46}      | ${'/user/1'} | ${'login-page'}  | ${'LoginPage'}
   `(
     '0$testNumber - does not display $page when path is $path',
     ({ pageTestId, path }) => {
