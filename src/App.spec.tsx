@@ -48,4 +48,11 @@ describe('Routing', () => {
       expect(page).not.toBeInTheDocument();
     }
   );
+
+  it('047 - has link to home page on NavBar', () => {
+    setup('/'); // any path would do ('/signup' or '/login', ...)
+    const link = screen.getByRole('link', { name: 'Accueil' });
+
+    expect(link).toBeInTheDocument();
+  });
 });
