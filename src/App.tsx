@@ -38,7 +38,9 @@ function App() {
         }}
       >
         <div>
-          <a href="/">Accueil</a>
+          <a href="/" title="Home">
+            B27 Projects
+          </a>
         </div>
         {window.location.pathname === '/' && <HomePage />}
         {window.location.pathname === '/signup' && <SignupPage />}
