@@ -37,6 +37,9 @@ function App() {
           height: '100vh',
         }}
       >
+        <div>
+          <a href="/">Accueil</a>
+        </div>
         {window.location.pathname === '/' && <HomePage />}
         {window.location.pathname === '/signup' && <SignupPage />}
         {window.location.pathname === '/login' && <LoginPage />}
