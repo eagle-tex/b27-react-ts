@@ -49,10 +49,15 @@ describe('Routing', () => {
     }
   );
 
-  it('047 - has link to home page on NavBar', () => {
+  it.each`
+    testNumber | targetPage
+    ${47}      | ${'Home'}
+    ${48}      | ${'Créer un compte'}
+  `('0$testNumber - has link to $targetPage on NavBar', ({ targetPage }) => {
     setup('/'); // any path would do ('/signup' or '/login', ...)
-    const link = screen.getByRole('link', { name: 'B27 Projects' });
-    // const link = screen.getByTitle('Home'); // 2nd way for the same result
+    const link = screen.getByRole('link', {
+      description: targetPage as string,
+    });
 
     expect(link).toBeInTheDocument();
   });
