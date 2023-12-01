@@ -51,7 +51,8 @@ describe('Routing', () => {
 
   it('047 - has link to home page on NavBar', () => {
     setup('/'); // any path would do ('/signup' or '/login', ...)
-    const link = screen.getByRole('link', { name: 'Accueil' });
+    const link = screen.getByRole('link', { name: 'B27 Projects' });
+    // const link = screen.getByTitle('Home'); // 2nd way for the same result
 
     expect(link).toBeInTheDocument();
   });
