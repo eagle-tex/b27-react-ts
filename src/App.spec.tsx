@@ -3,6 +3,11 @@ import { render, screen } from '@testing-library/react';
 import App from './App.tsx';
 
 describe('Routing', () => {
+  function setup(path: string) {
+    window.history.pushState({}, '', path);
+    render(<App />);
+  }
+
   it.each`
     testNumber | path         | pageTestId       | page
     ${30}      | ${'/'}       | ${'home-page'}   | ${'HomePage'}
@@ -13,8 +18,7 @@ describe('Routing', () => {
   `(
     '0$testNumber - displays $page when path is $path',
     ({ pageTestId, path }) => {
-      window.history.pushState({}, '', path as string);
-      render(<App />);
+      setup(path as string);
       const page = screen.queryByTestId(pageTestId as string);
 
       expect(page).toBeInTheDocument();
@@ -38,8 +42,7 @@ describe('Routing', () => {
   `(
     '0$testNumber - does not display $page when path is $path',
     ({ pageTestId, path }) => {
-      window.history.pushState({}, '', path as string);
-      render(<App />);
+      setup(path as string);
       const page = screen.queryByTestId(pageTestId as string);
 
       expect(page).not.toBeInTheDocument();
