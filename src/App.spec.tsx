@@ -77,8 +77,9 @@ describe('Routing', () => {
   });
 
   it.each`
-    testNumber | initialPath | clickingTo  | visiblePageId    | visiblePage
-    ${49}      | ${'/'}      | ${signupFr} | ${'signup-page'} | ${'Signup Page'}
+    testNumber | initialPath  | clickingTo  | visiblePageId    | visiblePage
+    ${49}      | ${'/'}       | ${signupFr} | ${'signup-page'} | ${'Signup Page'}
+    ${50}      | ${'/signup'} | ${'Home'}   | ${'home-page'}   | ${'Home Page'}
   `(
     '0$testNumber - displays $visiblePage after clicking $clickingTo link',
     async ({ clickingTo, initialPath, visiblePageId }) => {
