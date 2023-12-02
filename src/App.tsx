@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Container,
@@ -7,11 +8,13 @@ import {
   Link,
   ThemeProvider,
   Toolbar,
+  Typography,
   createTheme,
 } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import logo from '@/assets/b27_logo.jpeg';
 import LanguageSelector from '@/components/LanguageSelector.tsx';
 import HomePage from '@/pages/home/HomePage.tsx';
 import LoginPage from '@/pages/login/LoginPage.tsx';
@@ -62,10 +65,38 @@ function App() {
       >
         <Container maxWidth="xl">
           <Toolbar>
-            <Box sx={{ flexGrow: 1 }}>
-              <a href="/" onClick={onClickLink} title="Home">
-                B27 Projects
-              </a>
+            <Box sx={{ direction: 'row', flexGrow: 1 }}>
+              <Link
+                href="/"
+                onClick={onClickLink}
+                title="Home"
+                display="flex"
+                alignItems="center"
+                underline="none"
+              >
+                {/* <img src={logo} alt="Logo B27" width="60" /> */}
+                <Avatar
+                  src={logo}
+                  alt="Logo B27"
+                  sx={{ display: 'inline-flex', marginRight: '1rem' }}
+                />
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="a"
+                  sx={{
+                    display: { xs: 'none', md: 'flex' },
+                    fontWeight: 700,
+                    letterSpacing: '.2rem',
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {/* B27 Projects */}
+                  Projects
+                </Typography>
+              </Link>
             </Box>
 
             <Box>
