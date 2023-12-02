@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LanguageSelector from '@/components/LanguageSelector.tsx';
@@ -36,23 +36,9 @@ function App() {
     event.preventDefault();
     const { target } = event;
     const linkPath = (target as HTMLAnchorElement).pathname;
-    console.log({
-      path,
-      // target,
-      linkPath,
-      title: (target as HTMLAnchorElement).title,
-      href: (target as HTMLAnchorElement).href,
-      pathname: (target as HTMLAnchorElement).pathname,
-    });
     window.history.pushState({}, '', linkPath);
     setPath(linkPath);
-
-    // console.log({ where: 'AFTER setPath', path });
   }
-
-  // useEffect(() => {
-  //   console.log({ where: 'useEffect', path });
-  // }, [path]);
 
   return (
     <ThemeProvider theme={customTheme}>
