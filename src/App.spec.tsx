@@ -5,16 +5,16 @@ import App from '@/App.tsx';
 // import { testLog } from './utils/debugLogger.ts';
 import fr from '@/locale/fr/translation.json';
 
-const frTranslations = fr.signup;
-const {
-  // email: emailFr,
-  // password: passwordFr,
-  // passwordMismatch: passwordMismatchFr,
-  // passwordRepeat: passwordRepeatFr,
-  signup: signupFr,
-  // success: successFr,
-  // username: usernameFr,
-} = frTranslations;
+// const frTranslations = fr.signup;
+// const {
+// email: emailFr,
+// password: passwordFr,
+// passwordMismatch: passwordMismatchFr,
+// passwordRepeat: passwordRepeatFr,
+// signup: signupFr,
+// success: successFr,
+// username: usernameFr,
+// } = frTranslations;
 
 describe('Routing', () => {
   function setup(path: string) {
@@ -66,7 +66,8 @@ describe('Routing', () => {
   it.each`
     testNumber | targetPage
     ${47}      | ${'Home'}
-    ${48}      | ${signupFr}
+    ${48}      | ${'Signup'}
+    ${51}      | ${'Login'}
   `('0$testNumber - has link to $targetPage on NavBar', ({ targetPage }) => {
     setup('/'); // any path would do ('/signup' or '/login', ...)
     const link = screen.getByRole('link', {
@@ -78,7 +79,7 @@ describe('Routing', () => {
 
   it.each`
     testNumber | initialPath  | clickingTo  | visiblePageId    | visiblePage
-    ${49}      | ${'/'}       | ${signupFr} | ${'signup-page'} | ${'Signup Page'}
+    ${49}      | ${'/'}       | ${'Signup'} | ${'signup-page'} | ${'Signup Page'}
     ${50}      | ${'/signup'} | ${'Home'}   | ${'home-page'}   | ${'Home Page'}
   `(
     '0$testNumber - displays $visiblePage after clicking $clickingTo link',
