@@ -91,7 +91,7 @@ function App() {
                     textTransform: 'uppercase',
                   }}
                 >
-                  Projects
+                  {t('app.name')}
                 </Typography>
               </Link>
             </Box>
