@@ -96,4 +96,13 @@ describe('Routing', () => {
       expect(screen.getByTestId(visiblePageId as string)).toBeInTheDocument();
     }
   );
+
+  it('053 - displays Home page when clicking brand logo', async () => {
+    const user = userEvent.setup();
+    setup('/login');
+    const logo = screen.queryByAltText('Logo');
+    await user.click(logo as HTMLElement);
+
+    expect(screen.getByTestId('home-page')).toBeInTheDocument();
+  });
 });
