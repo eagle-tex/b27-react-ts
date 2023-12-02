@@ -57,7 +57,7 @@ function App() {
           <a href="/signup" onClick={onClickLink} title="Signup">
             {t('signup.signup')}
           </a>
-          <a href="/" title="Login">
+          <a href="/login" onClick={onClickLink} title="Login">
             Login
           </a>
         </div>
