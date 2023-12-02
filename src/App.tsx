@@ -48,8 +48,8 @@ function App() {
   // function onClickLink(event: MouseEvent<HTMLAnchorElement>) {
   const onClickLink = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    const { target } = event;
-    const linkPath = (target as HTMLAnchorElement).pathname;
+    const { currentTarget } = event;
+    const linkPath = (currentTarget as HTMLAnchorElement).pathname;
     window.history.pushState({}, '', linkPath);
     setPath(linkPath);
   };
@@ -74,16 +74,14 @@ function App() {
                 alignItems="center"
                 underline="none"
               >
-                {/* <img src={logo} alt="Logo B27" width="60" /> */}
                 <Avatar
                   src={logo}
-                  alt="Logo B27"
+                  alt="Logo"
                   sx={{ display: 'inline-flex', marginRight: '1rem' }}
                 />
                 <Typography
                   variant="h6"
                   noWrap
-                  component="a"
                   sx={{
                     display: { xs: 'none', md: 'flex' },
                     fontWeight: 700,
@@ -93,7 +91,6 @@ function App() {
                     textTransform: 'uppercase',
                   }}
                 >
-                  {/* B27 Projects */}
                   Projects
                 </Typography>
               </Link>
