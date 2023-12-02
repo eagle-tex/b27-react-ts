@@ -51,7 +51,7 @@ function App() {
         }}
       >
         <div>
-          <a href="/" title="Home">
+          <a href="/" onClick={onClickLink} title="Home">
             B27 Projects
           </a>
           <a href="/signup" onClick={onClickLink} title={t('signup.signup')}>
