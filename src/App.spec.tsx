@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 
 import App from '@/App.tsx';
 // import { testLog } from './utils/debugLogger.ts';
-import fr from '@/locale/fr/translation.json';
+// import fr from '@/locale/fr/translation.json';
 
 // const frTranslations = fr.signup;
 // const {
@@ -81,6 +81,7 @@ describe('Routing', () => {
     testNumber | initialPath  | clickingTo  | visiblePageId    | visiblePage
     ${49}      | ${'/'}       | ${'Signup'} | ${'signup-page'} | ${'Signup Page'}
     ${50}      | ${'/signup'} | ${'Home'}   | ${'home-page'}   | ${'Home Page'}
+    ${52}      | ${'/signup'} | ${'Login'}  | ${'login-page'}  | ${'Login Page'}
   `(
     '0$testNumber - displays $visiblePage after clicking $clickingTo link',
     async ({ clickingTo, initialPath, visiblePageId }) => {
