@@ -11,5 +11,6 @@
     "success": "Veuillez vérifier votre e-mail pour activer votre compte",
     "passwordMismatch": "Mot de passe non-concordant"
   },
+  "login": "Se connecter",
   "inter": "interpoler {{val}}"
 }

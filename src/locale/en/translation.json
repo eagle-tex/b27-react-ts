@@ -11,6 +11,7 @@
     "success": "Please check your e-mail to activate your account",
     "passwordMismatch": "Password mismatch"
   },
+  "login": "Login",
   "inter": "interpolated {{val}}",
   "description": {
     "part1": "This is a simple example.",
