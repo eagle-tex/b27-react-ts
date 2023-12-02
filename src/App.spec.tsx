@@ -3,6 +3,18 @@ import userEvent from '@testing-library/user-event';
 
 import App from '@/App.tsx';
 // import { testLog } from './utils/debugLogger.ts';
+import fr from '@/locale/fr/translation.json';
+
+const frTranslations = fr.signup;
+const {
+  // email: emailFr,
+  // password: passwordFr,
+  // passwordMismatch: passwordMismatchFr,
+  // passwordRepeat: passwordRepeatFr,
+  signup: signupFr,
+  // success: successFr,
+  // username: usernameFr,
+} = frTranslations;
 
 describe('Routing', () => {
   function setup(path: string) {
@@ -54,7 +66,7 @@ describe('Routing', () => {
   it.each`
     testNumber | targetPage
     ${47}      | ${'Home'}
-    ${48}      | ${'Créer un compte'}
+    ${48}      | ${signupFr}
   `('0$testNumber - has link to $targetPage on NavBar', ({ targetPage }) => {
     setup('/'); // any path would do ('/signup' or '/login', ...)
     const link = screen.getByRole('link', {
@@ -64,13 +76,21 @@ describe('Routing', () => {
     expect(link).toBeInTheDocument();
   });
 
-  it('049 - displays signup page after clicking the sign up link', async () => {
-    const user = userEvent.setup();
-    setup('/');
-    const link = screen.getByRole('link', { description: 'Créer un compte' });
+  it.each`
+    testNumber | initialPath | clickingTo  | visiblePageId    | visiblePage
+    ${49}      | ${'/'}      | ${signupFr} | ${'signup-page'} | ${'Signup Page'}
+  `(
+    '0$testNumber - displays $visiblePage after clicking $clickingTo link',
+    async ({ clickingTo, initialPath, visiblePageId }) => {
+      const user = userEvent.setup();
+      setup(initialPath as string);
+      const link = screen.getByRole('link', {
+        description: clickingTo as string,
+      });
 
-    await user.click(link);
+      await user.click(link);
 
-    expect(screen.getByTestId('signup-page')).toBeInTheDocument();
-  });
+      expect(screen.getByTestId(visiblePageId as string)).toBeInTheDocument();
+    }
+  );
 });
