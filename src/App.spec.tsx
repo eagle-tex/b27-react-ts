@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-import App from './App.tsx';
+import App from '@/App.tsx';
+// import { testLog } from './utils/debugLogger.ts';
 
 describe('Routing', () => {
   function setup(path: string) {
@@ -60,5 +62,15 @@ describe('Routing', () => {
     });
 
     expect(link).toBeInTheDocument();
+  });
+
+  it('049 - displays signup page after clicking the sign up link', async () => {
+    const user = userEvent.setup();
+    setup('/');
+    const link = screen.getByRole('link', { description: 'Créer un compte' });
+
+    await user.click(link);
+
+    expect(screen.getByTestId('signup-page')).toBeInTheDocument();
   });
 });
