@@ -1,4 +1,14 @@
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Link,
+  ThemeProvider,
+  Toolbar,
+  createTheme,
+} from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -32,17 +42,64 @@ function App() {
 
   const [path, setPath] = useState(window.location.pathname);
 
-  function onClickLink(event: MouseEvent<HTMLAnchorElement>) {
+  // function onClickLink(event: MouseEvent<HTMLAnchorElement>) {
+  const onClickLink = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     const { target } = event;
     const linkPath = (target as HTMLAnchorElement).pathname;
     window.history.pushState({}, '', linkPath);
     setPath(linkPath);
-  }
+  };
 
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
+
+      <AppBar
+        color="default"
+        position="static"
+        // sx={{ backgroundColor: 'primary.light' }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar>
+            <Box sx={{ flexGrow: 1 }}>
+              <a href="/" onClick={onClickLink} title="Home">
+                B27 Projects
+              </a>
+            </Box>
+
+            <Box>
+              <Button variant="contained" color="secondary">
+                <Link
+                  href="/signup"
+                  onClick={onClickLink}
+                  title="Signup"
+                  underline="none"
+                  color="white"
+                >
+                  {t('signup.signup')}
+                </Link>
+              </Button>
+              {/* <Button variant="contained"> */}
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={{ marginLeft: 2 }}
+              >
+                <Link
+                  href="/login"
+                  onClick={onClickLink}
+                  title="Login"
+                  sx={{ color: 'white' }}
+                >
+                  {t('login')}
+                </Link>
+              </Button>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+
       <div
         style={{
           width: '100%',
@@ -50,22 +107,14 @@ function App() {
           height: '100vh',
         }}
       >
-        <div>
-          <a href="/" onClick={onClickLink} title="Home">
-            B27 Projects
-          </a>
-          <a href="/signup" onClick={onClickLink} title="Signup">
-            {t('signup.signup')}
-          </a>
-          <a href="/login" onClick={onClickLink} title="Login">
-            Login
-          </a>
-        </div>
-        {path === '/' && <HomePage />}
-        {path === '/signup' && <SignupPage />}
-        {path === '/login' && <LoginPage />}
-        {path.startsWith('/user') && <UserPage />}
-        <LanguageSelector />
+        <Container maxWidth="xl">
+          {path === '/' && <HomePage />}
+          {path === '/signup' && <SignupPage />}
+          {path === '/login' && <LoginPage />}
+          {path.startsWith('/user') && <UserPage />}
+
+          <LanguageSelector />
+        </Container>
       </div>
     </ThemeProvider>
   );

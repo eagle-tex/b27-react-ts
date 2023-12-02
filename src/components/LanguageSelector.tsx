@@ -23,6 +23,7 @@ function LanguageSelector(/* {}: Props */) {
       py={1}
       position="fixed"
       bottom={0}
+      maxWidth="xl"
     >
       <Button
         type="button"
@@ -37,8 +38,8 @@ function LanguageSelector(/* {}: Props */) {
         title="French"
         onClick={() => onLanguageChange('fr')}
       >
-        <img src="https://flagcdn.com/24x18/fr.png" alt="French Flag" />
         {/* FR */}
+        <img src="https://flagcdn.com/24x18/fr.png" alt="French Flag" />
       </Button>
     </Box>
   );
