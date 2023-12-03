@@ -16,3 +16,7 @@ export const postUser = (body: Body) => {
     },
   });
 };
+
+export const activate = (token: string) => {
+  return Axios.post(`/api/v1/users/token/${token}`);
+};
