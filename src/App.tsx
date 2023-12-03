@@ -21,6 +21,7 @@ import {
 
 import logo from '@/assets/b27_logo.jpeg';
 import LanguageSelector from '@/components/LanguageSelector.tsx';
+import AccountActivationPage from '@/pages/activation/AccountActivationPage.tsx';
 import HomePage from '@/pages/home/HomePage.tsx';
 import LoginPage from '@/pages/login/LoginPage.tsx';
 import SignupPage from '@/pages/signup/SignupPage.tsx';
@@ -136,6 +137,10 @@ function App() {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/user/:id" element={<UserPage />} />
+              <Route
+                path="/activate/:token"
+                element={<AccountActivationPage />}
+              />
             </Routes>
 
             <LanguageSelector />
