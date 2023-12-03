@@ -1,9 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { HttpResponse, http } from 'msw';
 
+import { BASE_URL } from '@/api/axiosConfig.ts';
 import App from '@/App.tsx';
 // import { testLog } from './utils/debugLogger.ts';
 // import fr from '@/locale/fr/translation.json';
+import { server } from '@/mocks/server.ts';
 
 // const frTranslations = fr.signup;
 // const {
@@ -15,6 +18,20 @@ import App from '@/App.tsx';
 // success: successFr,
 // username: usernameFr,
 // } = frTranslations;
+
+beforeEach(() => {
+  server.use(
+    http.post(`${BASE_URL}/api/v1/users/token/:token`, () => {
+      return HttpResponse.json({ status: 200 });
+    })
+  );
+});
+
+afterEach(() => {
+  server.resetHandlers();
+});
+
+afterAll(() => server.close());
 
 describe('Routing', () => {
   function setup(path: string) {
