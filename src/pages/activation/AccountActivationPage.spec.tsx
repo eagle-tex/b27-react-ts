@@ -8,13 +8,14 @@ const frTranslations = fr.account;
 const { activated: activatedFr } = frTranslations;
 
 describe('Account Activation Page', () => {
-  it('064 - displays activation success message when token is valid', async () => {
-    const match = { params: { token: '1234' } };
-
+  function setup(token: string) {
+    const match = { params: { token } };
     render(<AccountActivationPage match={match} />);
-    const message = await screen.findByText(activatedFr);
+  }
 
-    console.log({ test: '064', match, activatedFr, message });
+  it('064 - displays activation success message when token is valid', async () => {
+    setup('1234');
+    const message = await screen.findByText(activatedFr);
 
     expect(message).toBeInTheDocument();
   });
