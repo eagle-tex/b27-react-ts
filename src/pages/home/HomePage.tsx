@@ -1,6 +1,6 @@
 function HomePage() {
   return (
-    <div data-testid="home-page">
+    <div data-testid="home-page" style={{ paddingTop: '40px' }}>
       <h1>Home Page</h1>
     </div>
   );
