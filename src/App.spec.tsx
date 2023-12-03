@@ -23,12 +23,14 @@ describe('Routing', () => {
   }
 
   it.each`
-    testNumber | path         | pageTestId       | page
-    ${30}      | ${'/'}       | ${'home-page'}   | ${'HomePage'}
-    ${31}      | ${'/signup'} | ${'signup-page'} | ${'SignupPage'}
-    ${34}      | ${'/login'}  | ${'login-page'}  | ${'LoginPage'}
-    ${39}      | ${'/user/1'} | ${'user-page'}   | ${'UserPage'}
-    ${40}      | ${'/user/2'} | ${'user-page'}   | ${'UserPage'}
+    testNumber | path               | pageTestId           | page
+    ${30}      | ${'/'}             | ${'home-page'}       | ${'HomePage'}
+    ${31}      | ${'/signup'}       | ${'signup-page'}     | ${'SignupPage'}
+    ${34}      | ${'/login'}        | ${'login-page'}      | ${'LoginPage'}
+    ${39}      | ${'/user/1'}       | ${'user-page'}       | ${'UserPage'}
+    ${40}      | ${'/user/2'}       | ${'user-page'}       | ${'UserPage'}
+    ${54}      | ${'/activate/123'} | ${'activation-page'} | ${'AccountActivationPage'}
+    ${55}      | ${'/activate/456'} | ${'activation-page'} | ${'AccountActivationPage'}
   `(
     '0$testNumber - displays $page when path is $path',
     ({ pageTestId, path }) => {
