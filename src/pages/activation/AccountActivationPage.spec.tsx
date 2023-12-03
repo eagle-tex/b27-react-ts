@@ -8,13 +8,17 @@ import { server } from '@/mocks/server.ts';
 import AccountActivationPage from './AccountActivationPage.tsx';
 
 const frTranslations = fr.account;
-const { activated: activatedFr } = frTranslations;
+const { activated: activatedFr, activationFailure: activationFailureFr } =
+  frTranslations;
 
 let counter = 0;
 
 beforeEach(() => {
   server.use(
-    http.post(`${BASE_URL}/api/v1/users/token/:token`, () => {
+    http.post(`${BASE_URL}/api/v1/users/token/:token`, ({ params }) => {
+      if (params.token === '5678') {
+        return HttpResponse.json({ status: 400 });
+      }
       counter += 1;
       return HttpResponse.json({ status: 200 });
     })
@@ -47,5 +51,12 @@ describe('Account Activation Page', () => {
     await screen.findByText(activatedFr);
 
     expect(counter).toBe(1);
+  });
+
+  it('066 - displays activation failure message when token is invalid', async () => {
+    setup('5678');
+    const message = await screen.findByText(activationFailureFr);
+
+    expect(message).toBeInTheDocument();
   });
 });
