@@ -1,7 +1,8 @@
 {
   "title": "Welcome {{name}}, to react using react-i18next fully type-safe",
   "account": {
-    "activated": "Your account is activated"
+    "activated": "Your account is activated",
+    "activationFailure": "Activation failure"
   },
   "app": {
     "name": "Projects"

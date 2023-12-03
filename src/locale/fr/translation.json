@@ -1,7 +1,8 @@
 {
   "title": "Willkommen!",
   "account": {
-    "activated": "Votre compte est activé"
+    "activated": "Votre compte est activé",
+    "activationFailure": "Echec d'activation du compte"
   },
   "app": {
     "name": "Projets"
