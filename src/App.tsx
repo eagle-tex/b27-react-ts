@@ -54,7 +54,15 @@ function App() {
       <CssBaseline />
 
       <Router>
-        <AppBar color="default" position="static">
+        <AppBar
+          // color="default"
+          position="sticky"
+          elevation={2}
+          sx={{
+            backgroundColor: '#eee',
+            // boxShadow: 2
+          }}
+        >
           <Container maxWidth="xl">
             <Toolbar>
               <Box
@@ -142,6 +150,7 @@ function App() {
                 element={
                   <AccountActivationPage
                     match={{ params: { token: 'Dummy-Token' } }}
+                    // match={{ params: { token: '1234' } }}
                   />
                 }
               />
