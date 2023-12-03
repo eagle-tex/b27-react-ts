@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import App from './App.tsx';
-
 import '@/i18n/config.ts';
+import App from '@/App.tsx';
 
 // import { server } from './mocks/server.ts';
 //
