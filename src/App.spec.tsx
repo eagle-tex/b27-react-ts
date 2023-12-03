@@ -42,19 +42,27 @@ describe('Routing', () => {
   );
 
   it.each`
-    testNumber | path         | pageTestId       | page
-    ${32}      | ${'/'}       | ${'signup-page'} | ${'SignupPage'}
-    ${35}      | ${'/'}       | ${'login-page'}  | ${'LoginPage'}
-    ${41}      | ${'/'}       | ${'user-page'}   | ${'UserPage'}
-    ${33}      | ${'/signup'} | ${'home-page'}   | ${'HomePage'}
-    ${36}      | ${'/signup'} | ${'login-page'}  | ${'LoginPage'}
-    ${42}      | ${'/signup'} | ${'user-page'}   | ${'UserPage'}
-    ${37}      | ${'/login'}  | ${'home-page'}   | ${'HomePage'}
-    ${38}      | ${'/login'}  | ${'signup-page'} | ${'SignupPage'}
-    ${43}      | ${'/login'}  | ${'user-page'}   | ${'UserPage'}
-    ${44}      | ${'/user/1'} | ${'home-page'}   | ${'HomePage'}
-    ${45}      | ${'/user/1'} | ${'signup-page'} | ${'SignupPage'}
-    ${46}      | ${'/user/1'} | ${'login-page'}  | ${'LoginPage'}
+    testNumber | path               | pageTestId           | page
+    ${32}      | ${'/'}             | ${'signup-page'}     | ${'SignupPage'}
+    ${35}      | ${'/'}             | ${'login-page'}      | ${'LoginPage'}
+    ${41}      | ${'/'}             | ${'user-page'}       | ${'UserPage'}
+    ${56}      | ${'/'}             | ${'activation-page'} | ${'AccountActivationPage'}
+    ${33}      | ${'/signup'}       | ${'home-page'}       | ${'HomePage'}
+    ${36}      | ${'/signup'}       | ${'login-page'}      | ${'LoginPage'}
+    ${42}      | ${'/signup'}       | ${'user-page'}       | ${'UserPage'}
+    ${57}      | ${'/signup'}       | ${'activation-page'} | ${'AccountActivationPage'}
+    ${37}      | ${'/login'}        | ${'home-page'}       | ${'HomePage'}
+    ${38}      | ${'/login'}        | ${'signup-page'}     | ${'SignupPage'}
+    ${43}      | ${'/login'}        | ${'user-page'}       | ${'UserPage'}
+    ${58}      | ${'/login'}        | ${'activation-page'} | ${'AccountActivationPage'}
+    ${44}      | ${'/user/1'}       | ${'home-page'}       | ${'HomePage'}
+    ${45}      | ${'/user/1'}       | ${'signup-page'}     | ${'SignupPage'}
+    ${46}      | ${'/user/1'}       | ${'login-page'}      | ${'LoginPage'}
+    ${59}      | ${'/user/1'}       | ${'activation-page'} | ${'AccountActivationPage'}
+    ${60}      | ${'/activate/123'} | ${'home-page'}       | ${'HomePage'}
+    ${61}      | ${'/activate/123'} | ${'signup-page'}     | ${'SignupPage'}
+    ${62}      | ${'/activate/123'} | ${'login-page'}      | ${'LoginPage'}
+    ${63}      | ${'/activate/123'} | ${'user-page'}       | ${'AccountActivationPage'}
   `(
     '0$testNumber - does not display $page when path is $path',
     ({ pageTestId, path }) => {
