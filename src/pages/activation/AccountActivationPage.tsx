@@ -28,7 +28,7 @@ function AccountActivationPage({ match }: Props) {
         setResult('fail');
         console.log({ where: 'activate - catch' });
       });
-  }, []);
+  }, [match.params.token]);
 
   return (
     <div data-testid="activation-page" style={{ paddingTop: '40px' }}>
