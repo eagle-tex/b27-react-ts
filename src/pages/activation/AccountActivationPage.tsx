@@ -13,9 +13,11 @@ type Props = {
   };
 };
 
+type TResult = 'success' | 'fail';
+
 function AccountActivationPage({ match }: Props) {
   const { t } = i18n;
-  const [result, setResult] = useState('result');
+  const [result, setResult] = useState<TResult>('fail');
 
   useEffect(() => {
     activate(match.params.token)
@@ -23,6 +25,7 @@ function AccountActivationPage({ match }: Props) {
         setResult('success');
       })
       .catch(() => {
+        setResult('fail');
         console.log({ where: 'activate - catch' });
       });
   }, []);
@@ -32,6 +35,13 @@ function AccountActivationPage({ match }: Props) {
       {result === 'success' && (
         <Container maxWidth="xs">
           <Alert severity="success">{t('account.activated')}</Alert>
+          <p>{JSON.stringify(match)}</p>
+        </Container>
+      )}
+
+      {result === 'fail' && (
+        <Container maxWidth="xs">
+          <Alert severity="error">{t('account.activationFailure')}</Alert>
           <p>{JSON.stringify(match)}</p>
         </Container>
       )}
