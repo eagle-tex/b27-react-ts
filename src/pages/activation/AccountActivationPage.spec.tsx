@@ -16,10 +16,10 @@ let counter = 0;
 beforeEach(() => {
   server.use(
     http.post(`${BASE_URL}/api/v1/users/token/:token`, ({ params }) => {
+      counter += 1;
       if (params.token === '5678') {
         return HttpResponse.json(null, { status: 400 });
       }
-      counter += 1;
       return HttpResponse.json(null, { status: 200 });
     })
   );
@@ -58,5 +58,17 @@ describe('Account Activation Page', () => {
     const message = await screen.findByText(activationFailureFr);
 
     expect(message).toBeInTheDocument();
+  });
+
+  it('067 - sends activation request after the token is changed', async () => {
+    const match = { params: { token: '1234' } };
+    const { rerender } = render(<AccountActivationPage match={match} />);
+    await screen.findByText(activatedFr);
+
+    match.params.token = '5678';
+    rerender(<AccountActivationPage match={match} />);
+    await screen.findByText(activationFailureFr);
+
+    expect(counter).toBe(2);
   });
 });
