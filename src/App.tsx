@@ -139,7 +139,11 @@ function App() {
               <Route path="/user/:id" element={<UserPage />} />
               <Route
                 path="/activate/:token"
-                element={<AccountActivationPage />}
+                element={
+                  <AccountActivationPage
+                    match={{ params: { token: 'Dummy-Token' } }}
+                  />
+                }
               />
             </Routes>
 
