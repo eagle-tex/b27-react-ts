@@ -17,10 +17,10 @@ beforeEach(() => {
   server.use(
     http.post(`${BASE_URL}/api/v1/users/token/:token`, ({ params }) => {
       if (params.token === '5678') {
-        return HttpResponse.json({ status: 400 });
+        return HttpResponse.json(null, { status: 400 });
       }
       counter += 1;
-      return HttpResponse.json({ status: 200 });
+      return HttpResponse.json(null, { status: 200 });
     })
   );
 

@@ -22,7 +22,7 @@ import { server } from '@/mocks/server.ts';
 beforeEach(() => {
   server.use(
     http.post(`${BASE_URL}/api/v1/users/token/:token`, () => {
-      return HttpResponse.json({ status: 200 });
+      return HttpResponse.json(null, { status: 200 });
     })
   );
 });
