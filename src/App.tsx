@@ -5,14 +5,19 @@ import {
   Button,
   Container,
   CssBaseline,
-  Link,
+  // Link,
   ThemeProvider,
   Toolbar,
   Typography,
   createTheme,
 } from '@mui/material';
-import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  Route,
+  BrowserRouter as Router,
+  Link as RouterLink,
+  Routes,
+} from 'react-router-dom';
 
 import logo from '@/assets/b27_logo.jpeg';
 import LanguageSelector from '@/components/LanguageSelector.tsx';
@@ -43,107 +48,100 @@ const customTheme = createTheme({
 function App() {
   const { t } = useTranslation();
 
-  const [path, setPath] = useState(window.location.pathname);
-
-  // function onClickLink(event: MouseEvent<HTMLAnchorElement>) {
-  const onClickLink = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    const { currentTarget } = event;
-    const linkPath = (currentTarget as HTMLAnchorElement).pathname;
-    window.history.pushState({}, '', linkPath);
-    setPath(linkPath);
-  };
-
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
 
-      <AppBar
-        color="default"
-        position="static"
-        // sx={{ backgroundColor: 'primary.light' }}
-      >
-        <Container maxWidth="xl">
-          <Toolbar>
-            <Box sx={{ direction: 'row', flexGrow: 1 }}>
-              <Link
-                href="/"
-                onClick={onClickLink}
-                title="Home"
-                display="flex"
-                alignItems="center"
-                underline="none"
+      <Router>
+        <AppBar color="default" position="static">
+          <Container maxWidth="xl">
+            <Toolbar>
+              <Box
+                sx={{
+                  direction: 'row',
+                  flexGrow: 1,
+                }}
               >
-                <Avatar
-                  src={logo}
-                  alt="Logo"
-                  sx={{ display: 'inline-flex', marginRight: '1rem' }}
-                />
-                <Typography
-                  variant="h6"
-                  noWrap
-                  sx={{
-                    display: { xs: 'none', md: 'flex' },
-                    fontWeight: 700,
-                    letterSpacing: '.2rem',
-                    color: 'inherit',
+                <RouterLink
+                  to="/"
+                  title="Home"
+                  style={{
                     textDecoration: 'none',
-                    textTransform: 'uppercase',
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: '#689f38',
                   }}
                 >
-                  {t('app.name')}
-                </Typography>
-              </Link>
-            </Box>
+                  <Avatar
+                    src={logo}
+                    alt="Logo"
+                    sx={{ display: 'inline-flex', marginRight: '1rem' }}
+                  />
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    sx={{
+                      display: { xs: 'none', md: 'flex' },
+                      fontWeight: 700,
+                      letterSpacing: '.2rem',
+                      color: 'inherit',
+                      textDecoration: 'none',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {t('app.name')}
+                  </Typography>
+                </RouterLink>
+              </Box>
 
-            <Box>
-              <Button variant="contained" color="secondary">
-                <Link
-                  href="/signup"
-                  onClick={onClickLink}
-                  title="Signup"
-                  underline="none"
-                  color="white"
+              <Box>
+                <Button variant="contained" color="secondary">
+                  <RouterLink
+                    to="/signup"
+                    title="Signup"
+                    style={{ textDecoration: 'none', color: 'white' }}
+                  >
+                    {t('signup.signup')}
+                  </RouterLink>
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ marginLeft: 2 }}
                 >
-                  {t('signup.signup')}
-                </Link>
-              </Button>
-              {/* <Button variant="contained"> */}
-              <Button
-                variant="contained"
-                color="secondary"
-                sx={{ marginLeft: 2 }}
-              >
-                <Link
-                  href="/login"
-                  onClick={onClickLink}
-                  title="Login"
-                  sx={{ color: 'white' }}
-                >
-                  {t('login')}
-                </Link>
-              </Button>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+                  <RouterLink
+                    to="/login"
+                    title="Login"
+                    style={{ textDecoration: 'none', color: 'white' }}
+                  >
+                    {t('login')}
+                  </RouterLink>
+                </Button>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
 
-      <div
-        style={{
-          width: '100%',
-          backgroundColor: '#fafafa',
-          height: '100vh',
-        }}
-      >
-        <Container maxWidth="xl">
-          {path === '/' && <HomePage />}
-          {path === '/signup' && <SignupPage />}
-          {path === '/login' && <LoginPage />}
-          {path.startsWith('/user') && <UserPage />}
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: '#fafafa',
+            height: '100vh',
+          }}
+        >
+          <Container maxWidth="xl">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/user/:id" element={<UserPage />} />
+            </Routes>
 
-          <LanguageSelector />
-        </Container>
-      </div>
+            <LanguageSelector />
+          </Container>
+        </div>
+      </Router>
     </ThemeProvider>
   );
 }
