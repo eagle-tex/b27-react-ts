@@ -58,7 +58,7 @@ function AccountActivationPage() {
 
       {!result && (
         <span role="status">
-          <CircularProgress size={16} />{' '}
+          <CircularProgress size={32} />{' '}
         </span>
       )}
     </div>
