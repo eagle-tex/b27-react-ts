@@ -39,28 +39,36 @@ function AccountActivationPage() {
       });
   }, [token]);
 
+  let content = (
+    <span role="status">
+      <CircularProgress size={32} />{' '}
+    </span>
+  );
+
+  if (result === 'success') {
+    content = (
+      <Container maxWidth="xs">
+        <Alert severity="success">{t('account.activated')}</Alert>
+
+        {/* Dummy text */}
+        <p>{JSON.stringify(token)}</p>
+        <h4>{JSON.stringify({ token })}</h4>
+      </Container>
+    );
+  } else if (result === 'fail') {
+    content = (
+      <Container maxWidth="xs">
+        <Alert severity="error">{t('account.activationFailure')}</Alert>
+
+        {/* Dummy text */}
+        <p>{JSON.stringify(token)}</p>
+      </Container>
+    );
+  }
+
   return (
     <div data-testid="activation-page" style={{ paddingTop: '40px' }}>
-      {result === 'success' && (
-        <Container maxWidth="xs">
-          <Alert severity="success">{t('account.activated')}</Alert>
-          <p>{JSON.stringify(token)}</p>
-          <h4>{JSON.stringify({ token })}</h4>
-        </Container>
-      )}
-
-      {result === 'fail' && (
-        <Container maxWidth="xs">
-          <Alert severity="error">{t('account.activationFailure')}</Alert>
-          <p>{JSON.stringify(token)}</p>
-        </Container>
-      )}
-
-      {!result && (
-        <span role="status">
-          <CircularProgress size={32} />{' '}
-        </span>
-      )}
+      {content}
     </div>
   );
 }
