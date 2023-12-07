@@ -37,8 +37,31 @@ export const getUsersMock = http.get(`${BASE_URL}/api/v1/users`, () => {
   return HttpResponse.json(mockedUser);
 });
 
+export const postActivationTokenMock = http.post(
+  `${BASE_URL}/api/v1/activate/:token`,
+  ({ params }) => {
+    if (params.token === '5678') {
+      return HttpResponse.json(null, { status: 400 });
+    }
+    return HttpResponse.json(null, { status: 200 });
+  }
+);
+
+export const postUserTokenMock = http.post(
+  `${BASE_URL}/api/v1/users/token/:token`,
+  async ({ params }) => {
+    await delay(1000);
+    if (params.token === '5678') {
+      return HttpResponse.json(null, { status: 400 });
+    }
+    return HttpResponse.json(null, { status: 200 });
+  }
+);
+
 export const handlers = [
   postUserMockSuccess,
   postUserMockFailure,
   getUsersMock,
+  postActivationTokenMock,
+  postUserTokenMock,
 ];
