@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { HttpResponse, http } from 'msw';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import { BASE_URL } from '@/api/axiosConfig.ts';
 import fr from '@/locale/fr/translation.json';
@@ -35,8 +36,13 @@ afterAll(() => server.close());
 
 describe('Account Activation Page', () => {
   function setup(token: string) {
-    const match = { params: { token } };
-    render(<AccountActivationPage match={match} />);
+    render(
+      <MemoryRouter initialEntries={[`/activate/${token}`]}>
+        <Routes>
+          <Route path="/activate/:token" element={<AccountActivationPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
   }
 
   it('064 - displays activation success message when token is valid', async () => {
@@ -61,14 +67,23 @@ describe('Account Activation Page', () => {
   });
 
   it('067 - sends activation request after the token is changed', async () => {
-    const match = { params: { token: '1234' } };
-    const { rerender } = render(<AccountActivationPage match={match} />);
+    let token = '1234';
+    setup(token);
     await screen.findByText(activatedFr);
 
-    match.params.token = '5678';
-    rerender(<AccountActivationPage match={match} />);
+    token = '5678';
+    setup(token);
     await screen.findByText(activationFailureFr);
 
     expect(counter).toBe(2);
+  });
+
+  it('068 - displays spinner during activation API call', async () => {
+    setup('5678');
+    const spinner = screen.queryByRole('status');
+    expect(spinner).toBeInTheDocument();
+
+    await screen.findByText(activationFailureFr);
+    expect(spinner).not.toBeInTheDocument();
   });
 });
