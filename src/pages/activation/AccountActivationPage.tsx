@@ -28,6 +28,7 @@ function AccountActivationPage() {
   const { token } = useParams<MyParams>();
 
   useEffect(() => {
+    setResult(undefined);
     activate(token as string)
       .then(() => {
         setResult('success');
