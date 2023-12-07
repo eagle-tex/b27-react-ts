@@ -86,4 +86,20 @@ describe('Account Activation Page', () => {
     await screen.findByText(activationFailureFr);
     expect(spinner).not.toBeInTheDocument();
   });
+
+  it('069 - displays spinner after second API call (new token)', async () => {
+    let token = '1234';
+    setup(token);
+    await screen.findByText(activatedFr);
+
+    token = '5678';
+    setup(token);
+    const spinner = screen.queryByRole('status');
+
+    expect(spinner).toBeInTheDocument();
+
+    await screen.findByText(activationFailureFr);
+
+    expect(spinner).not.toBeInTheDocument();
+  });
 });
