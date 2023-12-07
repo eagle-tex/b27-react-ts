@@ -21,11 +21,13 @@ import {
 
 import logo from '@/assets/b27_logo.jpeg';
 import LanguageSelector from '@/components/LanguageSelector.tsx';
-import AccountActivationPage from '@/pages/activation/AccountActivationPage.tsx';
 import HomePage from '@/pages/home/HomePage.tsx';
 import LoginPage from '@/pages/login/LoginPage.tsx';
 import SignupPage from '@/pages/signup/SignupPage.tsx';
 import UserPage from '@/pages/user/UserPage.tsx';
+
+import AccountActivationPage from './pages/activation/AccountActivationPage.tsx';
+
 import '@/style.css';
 // import { testLog } from '@/utils/debugLogger.ts';
 
@@ -127,6 +129,34 @@ function App() {
                     {t('login')}
                   </RouterLink>
                 </Button>
+
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ marginLeft: 2 }}
+                >
+                  <RouterLink
+                    to="/activate/1"
+                    title="Login"
+                    style={{ textDecoration: 'none', color: 'white' }}
+                  >
+                    Activate 1
+                  </RouterLink>
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ marginLeft: 2 }}
+                >
+                  <RouterLink
+                    to="/activate/2"
+                    title="Login"
+                    style={{ textDecoration: 'none', color: 'white' }}
+                  >
+                    Activate 2
+                  </RouterLink>
+                </Button>
               </Box>
             </Toolbar>
           </Container>
@@ -147,12 +177,7 @@ function App() {
               <Route path="/user/:id" element={<UserPage />} />
               <Route
                 path="/activate/:token"
-                element={
-                  <AccountActivationPage
-                    match={{ params: { token: 'Dummy-Token' } }}
-                    // match={{ params: { token: '1234' } }}
-                  />
-                }
+                element={<AccountActivationPage />}
               />
             </Routes>
 
