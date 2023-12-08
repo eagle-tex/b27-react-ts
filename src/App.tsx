@@ -129,34 +129,6 @@ function App() {
                     {t('login')}
                   </RouterLink>
                 </Button>
-
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{ marginLeft: 2 }}
-                >
-                  <RouterLink
-                    to="/activate/1"
-                    title="Login"
-                    style={{ textDecoration: 'none', color: 'white' }}
-                  >
-                    Activate 1
-                  </RouterLink>
-                </Button>
-
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{ marginLeft: 2 }}
-                >
-                  <RouterLink
-                    to="/activate/2"
-                    title="Login"
-                    style={{ textDecoration: 'none', color: 'white' }}
-                  >
-                    Activate 2
-                  </RouterLink>
-                </Button>
               </Box>
             </Toolbar>
           </Container>
