@@ -28,30 +28,14 @@ function AccountActivationPage() {
   const { token } = useParams<MyParams>();
 
   useEffect(() => {
-    async function activateRequest() {
-      setResult(undefined);
-      try {
-        await activate(token as string);
-        setResult('success');
-      } catch (error: unknown) {
-        setResult('fail');
-      }
-    }
-    // setResult(undefined);
-    // activate(token as string)
-    //   .then(() => {
-    //     setResult('success');
-    //   })
-    //   .catch(() => {
-    //     setResult('fail');
-    //     console.log({ where: 'activate - catch' });
-    //   });
-    activateRequest()
+    setResult(undefined);
+    activate(token as string)
       .then(() => {
-        // console.log('In then block');
+        setResult('success');
       })
       .catch(() => {
-        // console.log('In catch block');
+        setResult('fail');
+        console.log({ where: 'activate - catch' });
       });
   }, [token]);
 
