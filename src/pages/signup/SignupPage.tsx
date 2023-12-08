@@ -126,8 +126,14 @@ function SignupPage(/* {}: Props */) {
   //   console.log(state);
   // }, [state]);
 
-  const { apiProgress, errors, password, passwordRepeat, signupSuccess } =
-    state;
+  const {
+    apiProgress,
+    errors,
+    password,
+    passwordRepeat,
+    signupSuccess,
+    username,
+  } = state;
   let disabled = true;
   if (password && passwordRepeat) {
     disabled = password !== passwordRepeat;
@@ -137,6 +143,8 @@ function SignupPage(/* {}: Props */) {
     password !== passwordRepeat && passwordRepeat !== ''
       ? t('signup.passwordMismatch')
       : '';
+
+  // const usernameError = username.length < 3 ? 'Longueur insuffisante' : '';
 
   return (
     <div style={{ paddingTop: '40px' }} data-testid="signup-page">
@@ -172,6 +180,7 @@ function SignupPage(/* {}: Props */) {
                 placeholder={t('signup.username')}
                 onChange={onChange}
                 help={errors?.username || ''}
+                // help={usernameError}
               />
 
               <TextInput
