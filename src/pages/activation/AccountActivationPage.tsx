@@ -40,9 +40,11 @@ function AccountActivationPage() {
   }, [token]);
 
   let content = (
-    <span role="status">
-      <CircularProgress size={32} />{' '}
-    </span>
+    <Container maxWidth="xs" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+      <span role="status">
+        <CircularProgress size={60} thickness={6} />{' '}
+      </span>
+    </Container>
   );
 
   if (result === 'success') {
